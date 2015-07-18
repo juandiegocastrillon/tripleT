@@ -1,0 +1,26 @@
+<ttheader>
+   <div class='page-content'>
+      <h2 id="election-title">{{election.name}}</h2>
+      <div class="mdl-grid content" id="election-voting-cell">
+         <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp">
+            <div class="election-candidate-container">
+               <p class="election-directions">drag and drop candidates in the order you want to vote</p>
+               <div ui-sortable  ng-model="election.candidates">
+                  <div ng-repeat="candidate in election.candidates">
+                     <div class="election-candidate">{{$index + 1}}. 
+                        <span class="election-candidate-name">{{candidate}}</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+               <button ng-click="submitVote()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+               Submit
+               </button>
+               <span ng-show='animated' ng-class="{ 'bounceIn' : (showSubmitText && animated), 'bounceOut' : (!showSubmitText && animated)}" class="animated election-submit-text">Submitted! Changed your mind? Vote again!</span>
+            </div>
+         </div>
+         
+      </div>
+   </div>
+</ttheader>

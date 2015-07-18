@@ -1,0 +1,88 @@
+<!-- Uses a header that scrolls with the text, rather than staying
+  locked at the top -->
+<ttheader>
+  <div class="page-content">
+    <div class="mdl-grid content" id="dashboard-cards">
+      <!-- DINING -->
+      <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
+        <div class="mdl-card__title">
+          <h1 class="mdl-card__title-text" id="homeDining">Dining</h1>
+        </div>
+        <div>
+          <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+            <div class="mdl-tabs__tab-bar">
+              <a href="#dining-Sunday" class="mdl-tabs__tab is-active">Sun</a>
+              <a href="#dining-Monday" class="mdl-tabs__tab">Mon</a>
+              <a href="#dining-Tuesday" class="mdl-tabs__tab">Tues</a>
+              <a href="#dining-Wednesday" class="mdl-tabs__tab">Wed</a>
+              <a href="#dining-Thursday" class="mdl-tabs__tab">Thurs</a>
+            </div>
+            <div ng-repeat="(dayofweek, dayInfo) in diningWeek" class="mdl-tabs__panel" ng-class="{ 'is-active': dayofweek === 'Sunday' }" id="dining-{{dayofweek}}">
+              <div class="dining-dayinfo">
+                <span class="dining-subtitle">HEAD CHEF: </span>{{dayInfo.Acomm}}
+              </div>
+              <div class="dining-linebreak"></div>
+              <div class="dining-dayinfo">
+                <div class="dining-subtitle">MENU:</div>
+                <p>{{dayInfo.menu}}</p>
+              </div>
+              <div class="dining-linebreak"></div>
+              <div class="dining-dayinfo">
+                <div class="dining-subtitle">LATE PLATES:</div>
+                <p ng-show="dayInfo.latePlates.length === 0" class="dining-no-lateplate">none</p>
+                <div ng-repeat="name in dayInfo.latePlates">{{name}}</div>
+
+                <!-- Add Late Plate -->
+                <button ng-hide="hasLatePlate[dayofweek]" ng-click="addLatePlate(dayofweek)" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored late-plate-btn">
+                  <i class="material-icons">add</i>
+                </button>
+
+
+                <!-- Remove Late Plate -->
+                <button ng-show="hasLatePlate[dayofweek]" ng-click="removeLatePlate(dayofweek)" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored late-plate-btn">
+                  <i class="material-icons">remove</i>
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ELECTIONS -->
+      <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="elections">
+        <div class="mdl-card__title">
+          <h1 class="mdl-card__title-text" id="homeElections">Elections</h1>
+        </div>
+        <div>
+          <div ng-repeat="election in elections" class="home-election mdl-card__supporting-text" ng-click="redirect('election/' + election._id)" >
+            <div class="home-election-name mdl-js-ripple-effect">{{election.name}}</div>
+              <button ng-hide="election.show" ng-click='getWinner(election); $event.stopPropagation()' class="show-results-icon mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                See Winner
+              </button>
+              <p ng-show="election.show" class="animated zoomIn home-election-winner-text">{{election.winner}}</p>
+          </div>
+          <div class="mdl-card__actions mdl-card--border">
+            <button ng-click="redirect('newElection')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Create</button>
+          </div>
+        </div>
+      </div>
+
+      
+    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
+      <div class="mdl-card__title">
+        <h1 class="mdl-card__title-text" id="homeDining">VP corner</h1>
+      </div>
+    </div>
+    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
+      <div class="mdl-card__title">
+        <h1 class="mdl-card__title-text" id="homeDining">Bibles</h1>
+      </div>
+    </div>
+    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
+      <div class="mdl-card__title">
+        <h1 class="mdl-card__title-text" id="homeDining">PM Requests</h1>
+      </div>
+    </div>
+  </div>
+</ttheader>
+<ttfooter>
