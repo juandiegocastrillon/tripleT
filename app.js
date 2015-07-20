@@ -36,7 +36,9 @@ var app = express();
 https.createServer(opts, app).listen(8888);
 console.log("Server started");
 
-var dbpath = 'localhost';
+var dbpath = process.env.MONGOLAB_URI || 
+  process.env.MONGOHQ_URL || 
+  'localhost';
 var db = mongoose.connect(dbpath, function(err) {
     if (err) {
         console.log(err);
