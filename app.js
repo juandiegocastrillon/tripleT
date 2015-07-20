@@ -29,14 +29,13 @@ var opts = {
    
   // If specified as "true", no unauthenticated traffic
   // will make it to the route specified.
-  rejectUnauthorized: true
+  rejectUnauthorized: false
 };
 
 var app = express();
 https.createServer(opts, app).listen(process.env.PORT || 8888);
 
-var dbpath = process.env.MONGOLAB_URI || 
-  process.env.MONGOHQ_URL || 
+var dbpath = process.env.MONGOLAB_URI ||
   'localhost';
 
 var db = mongoose.connect(dbpath, function(err) {
