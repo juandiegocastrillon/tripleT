@@ -19,7 +19,7 @@ var passport = require('passport');
 var app = express();
 
 var dbpath = process.env.MONGOLAB_URI || 'localhost';
-
+console.log(dbpath);
 var db = mongoose.connect(dbpath, function(err) {
     if (err) {
         console.log(err);
@@ -46,18 +46,10 @@ require('./models/diningWeek.js');
 require('./auth/passport.js')(passport);
 
 // use Express MongoDB session storage
-<<<<<<< HEAD
 app.use(session({
     saveUninitialized: true,
     resave: true,
     secret: 'tripleT',
-=======
-console.log(db.connection.db.s.databaseName);
-app.use(session({
-    saveUninitialized: true,
-    resave: true,
-    secret: 'pandaplay',
->>>>>>> 0b284fbc8433d1b7a37137a1737f32c8bb2a7a95
     store: new mongoStore({
         db: db.connection.db.s.databaseName,
         collection: 'sessions'
@@ -74,7 +66,7 @@ require('./routes/index.js')(app);
 require('./routes/routes_voting.js')(app);
 require('./routes/routes_dining.js')(app);
 
-var server = app.listen(8888, function () {
+var server = app.listen(5000, function () {
   var host = server.address().address;
   var port = server.address().port;
 
