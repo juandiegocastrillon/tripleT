@@ -25,6 +25,7 @@ var db = mongoose.connect(dbpath, function(err) {
       console.log(err);
     }
 });
+console.log("Connected to DB");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -46,6 +47,7 @@ require('./models/diningWeek.js');
 require('./auth/passport.js')(passport);
 
 // use Express MongoDB session storage
+console.log("Connecting to session store");
 app.use(session({
     saveUninitialized: true,
     resave: true,
@@ -55,6 +57,7 @@ app.use(session({
         collection: 'sessions'
     })
 }));
+console.log("Connected to session store");
 
 // use passport session
 app.use(passport.initialize());
