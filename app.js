@@ -46,10 +46,18 @@ require('./models/diningWeek.js');
 require('./auth/passport.js')(passport);
 
 // use Express MongoDB session storage
+<<<<<<< HEAD
 app.use(session({
     saveUninitialized: true,
     resave: true,
     secret: 'tripleT',
+=======
+console.log(db.connection.db.s.databaseName);
+app.use(session({
+    saveUninitialized: true,
+    resave: true,
+    secret: 'pandaplay',
+>>>>>>> 0b284fbc8433d1b7a37137a1737f32c8bb2a7a95
     store: new mongoStore({
         db: db.connection.db.s.databaseName,
         collection: 'sessions'
