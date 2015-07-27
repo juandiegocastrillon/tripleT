@@ -6,6 +6,7 @@ angular.module('tripleT', [
   'ngRoute',
   'tripleT.home',
   'tripleT.election',
+  'tripleT.userManagement',
   'tripleT.header-footer'
 ])
 
@@ -15,7 +16,7 @@ angular.module('tripleT', [
   });
 })
 
-.run(function($rootScope, $timeout, $http, AuthService) {
+.run(function($rootScope, $timeout, $http, $location, AuthService) {
   $rootScope.$on('$viewContentLoaded', function() {
     $timeout(function() {
       componentHandler.upgradeAllRegistered();
@@ -29,7 +30,7 @@ angular.module('tripleT', [
       AuthService.user = res;
     })
     .error(function(response) {
-      console.log("NO USER DETECTED");
+      $location.path('userManagement');
     })
 })
 
@@ -47,7 +48,27 @@ angular.module('tripleT', [
   });
 });
 
-angular.module('tripleT.home', ['ngRoute'])
+angular.module('tripleT.userManagement', ['ngRoute'])
+.config(function($routeProvider) {
+  $routeProvider.when('/userManagement', {
+    templateUrl: '/angular/home/signin.html',
+    controller: 'SignInCtrl'
+  })
+})
+
+.controller('SignInCtrl',
+  function($scope, $location, $http, $window){
+    $scope.credentials = {};
+    $scope.signin = function() {
+      $http.post('/auth/signin', $scope.credentials)
+      .success(function(res) {
+        $location.path('/');
+        $window.location.reload();
+      })
+    }
+  });
+
+angular.module('tripleT.home', ['ngResource', 'ngRoute'])
 .config(function($routeProvider) {
   $routeProvider.when('/', {
     templateUrl: '/angular/home/home.html',
@@ -215,7 +236,8 @@ angular.module('tripleT.header-footer', [])
   }
 })
 .controller('HeaderCtrl',
-  function($scope, $location, $anchorScroll) {
+  function($scope, $location, $anchorScroll, AuthService) {
+    $scope.user = AuthService.user;
     $scope.jumpTo = function(idTag) {
       $location.hash(idTag);
       $anchorScroll();

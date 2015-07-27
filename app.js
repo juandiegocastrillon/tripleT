@@ -1,6 +1,11 @@
 "use strict";
 
 var express = require('express');
+// var session = require('client-sessions');
+var session = require('express-session');
+var mongoStore = require('connect-mongo')({
+    session: session
+});
 var path = require('path');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
@@ -9,34 +14,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
-var https = require('https');
-
-var opts = {
-  // Specify the key file for the server
-  key: fs.readFileSync('ssl/key.pem'),
-   
-  // Specify the certificate file
-  cert: fs.readFileSync('ssl/cert.pem'),
-   
-  // Specify the Certificate Authority certificate
-  ca: fs.readFileSync('ssl/ca/ca.crt'),
-   
-  // This is where the magic happens in Node.  All previous
-  // steps simply setup SSL (except the CA).  By requesting
-  // the client provide a certificate, we are essentially
-  // authenticating the user.
-  requestCert: true,
-   
-  // If specified as "true", no unauthenticated traffic
-  // will make it to the route specified.
-  rejectUnauthorized: false
-};
+var passport = require('passport');
 
 var app = express();
-https.createServer(opts, app).listen(process.env.PORT || 8888);
 
-var dbpath = process.env.MONGOLAB_URI ||
-  'localhost';
+var dbpath = process.env.MONGOLAB_URI || 'localhost';
 
 var db = mongoose.connect(dbpath, function(err) {
     if (err) {
@@ -56,17 +38,37 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // load models
+require('./models/user.js');
 require('./models/vote.js');
 require('./models/election.js');
 require('./models/diningWeek.js');
 
-// auth middleware
-require('./controllers/auth.js')(app);
+require('./auth/passport.js')(passport);
+
+// use Express MongoDB session storage
+app.use(session({
+    saveUninitialized: true,
+    resave: true,
+    secret: 'tripleT',
+    store: new mongoStore({
+        db: db.connection.db.s.databaseName,
+        collection: 'sessions'
+    })
+}));
+
+// use passport session
+app.use(passport.initialize());
+app.use(passport.session());
 
 // load routes
-require('./routes/routes_auth.js')(app);
+require('./routes/routes_users.js')(app);
 require('./routes/index.js')(app);
 require('./routes/routes_voting.js')(app);
 require('./routes/routes_dining.js')(app);
 
-console.log("Server started");
+var server = app.listen(8888, function () {
+  var host = server.address().address;
+  var port = server.address().port;
+
+  console.log('App listening at http://%s:%s', host, port);
+});
