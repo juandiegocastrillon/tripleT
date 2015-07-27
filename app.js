@@ -18,11 +18,11 @@ var passport = require('passport');
 
 var app = express();
 
-var dbpath = process.env.MONGOLAB_URI || 'localhost';
-console.log(dbpath);
+var dbpath = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'localhost';
 var db = mongoose.connect(dbpath, function(err) {
     if (err) {
-        console.log(err);
+      console.log("Error connecting to " + dbpath);
+      console.log(err);
     }
 });
 
@@ -66,9 +66,4 @@ require('./routes/index.js')(app);
 require('./routes/routes_voting.js')(app);
 require('./routes/routes_dining.js')(app);
 
-var server = app.listen(5000, function () {
-  var host = server.address().address;
-  var port = server.address().port;
-
-  console.log('App listening at http://%s:%s', host, port);
-});
+console.log("Server Started");
