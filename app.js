@@ -21,11 +21,12 @@ var app = express();
 var dbpath = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'localhost';
 var db = mongoose.connect(dbpath, function(err) {
     if (err) {
-      console.log("Error connecting to " + dbpath);
-      console.log(err);
+        console.log("Error connecting to " + dbpath);
+        console.log(err);
+    } else {
+        console.log("Connected to DB");
     }
 });
-console.log("Connected to DB");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,17 +48,14 @@ require('./models/diningWeek.js');
 require('./auth/passport.js')(passport);
 
 // use Express MongoDB session storage
-console.log("Connecting to session store");
 app.use(session({
     saveUninitialized: true,
     resave: true,
     secret: 'tripleT',
     store: new mongoStore({
-        db: db.connection.db.s.databaseName,
-        collection: 'sessions'
+        mongooseConnection: mongoose.connection
     })
 }));
-console.log("Connected to session store");
 
 // use passport session
 app.use(passport.initialize());
