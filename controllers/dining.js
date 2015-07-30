@@ -42,6 +42,19 @@ function makeNewWeek(req, res) {
    });
 }
 
+/**
+ * We should only have one dining week object in backend. Return the ID.
+ */
+function getDiningWeek(req, res) {
+   DiningWeek.findOne({}, function(err, week) {
+      if (week) {
+         res.status(200).json(week);
+      } else {
+         res.status(400).send(err);
+      }
+   });
+}
+
 function getDining(req, res) {
    var diningWeekID = xss(req.params.diningID);
 
@@ -148,6 +161,7 @@ function removeLatePlate(req, res) {
 
 module.exports.makeNewWeek = makeNewWeek;
 module.exports.getDining = getDining;
+module.exports.getDiningWeek = getDiningWeek;
 module.exports.updateDining = updateDining;
 module.exports.addLatePlate = addLatePlate;
 module.exports.removeLatePlate = removeLatePlate;

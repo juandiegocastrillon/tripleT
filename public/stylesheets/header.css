@@ -78,6 +78,15 @@
    float: right;
 }
 
+.dining-title {
+   position: relative;
+}
+
+.dining-edit-btn {
+   position: absolute;
+   right: 20px;
+}
+
 .dining-subtitle {
    font-weight: 800;
 }

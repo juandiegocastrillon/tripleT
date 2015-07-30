@@ -4,7 +4,8 @@ module.exports = function(app) {
    var dining = require('../controllers/dining.js');
 
    app.route("/dining/")
-      .post(dining.makeNewWeek);
+      .post(dining.makeNewWeek)
+      .get(dining.getDiningWeek);
 
    app.route("/dining/:diningID")
       .get(dining.getDining)
