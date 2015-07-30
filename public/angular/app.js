@@ -101,8 +101,10 @@ angular.module('tripleT.home', ['ngResource', 'ngRoute'])
       }
 
       // DINING
+      var diningID = '55b9b5d64c1c95030089be86';
+      // var diningID = '55a5c8375da1b7ab104cec4f';
       $scope.hasLatePlate = {};
-      Dining.get({diningID: '55a5c8375da1b7ab104cec4f'}, function(week) {
+      Dining.get({diningID: diningID}, function(week) {
         $scope.diningWeek = {};
         $scope.diningWeek.Sunday = week.Sunday;
         $scope.diningWeek.Monday = week.Monday;
@@ -119,7 +121,6 @@ angular.module('tripleT.home', ['ngResource', 'ngRoute'])
       });
 
       $scope.addLatePlate = function(dayofweek) {
-        var diningID = '55a5c8375da1b7ab104cec4f';
         $http.put('/dining/' + diningID + '/latePlate/add',
           { dayofweek: dayofweek })
           .success(function(week) {
@@ -132,7 +133,6 @@ angular.module('tripleT.home', ['ngResource', 'ngRoute'])
       }
 
       $scope.removeLatePlate = function(dayofweek) {
-        var diningID = '55a5c8375da1b7ab104cec4f';
         $http.put('/dining/' + diningID + '/latePlate/remove',
           { dayofweek: dayofweek })
           .success(function(week) {
