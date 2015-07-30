@@ -16,7 +16,7 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var passport = require('passport');
 
-var app = express().listen(process.env.PORT || 5000);
+var app = express();
 
 var dbpath = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'localhost';
 var db = mongoose.connect(dbpath, function(err) {
@@ -67,4 +67,5 @@ require('./routes/index.js')(app);
 require('./routes/routes_voting.js')(app);
 require('./routes/routes_dining.js')(app);
 
+app.listen(process.env.PORT || 5000);
 console.log("Server Started");
