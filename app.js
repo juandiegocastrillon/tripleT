@@ -16,7 +16,7 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var passport = require('passport');
 
-var app = express();
+var app = express().listen(process.env.PORT || 5000);
 
 var dbpath = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'localhost';
 var db = mongoose.connect(dbpath, function(err) {
