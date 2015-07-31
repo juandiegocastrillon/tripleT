@@ -76,11 +76,10 @@ function updateDining(req, res) {
    DiningWeek.findOne({_id: diningWeekID})
       .exec(function(err, week) {
          if (week) {
-            _.forEach(updatedWeek, function(value, dayofweek) {
-               if (!_.includes(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'], dayofweek)) {
-                  res.status(400).send(dayofweek + " is not a day of the week");
+            _.forEach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'], function(dayofweek) {
+               if (_.has(updatedWeek, dayofweek)) {
+                  week[dayofweek] = updatedWeek[dayofweek];
                }
-               week[dayofweek] = updatedWeek[dayofweek];
             });
             week.save(function(err, week) {
                if (err) {

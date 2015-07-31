@@ -98,6 +98,10 @@
    font-size: 16px;
 }
 
+.dining-dayinfo.mdl-textfield {
+   display: block;
+}
+
 .dining-linebreak {
    margin: 0px auto;
    width: 25%;

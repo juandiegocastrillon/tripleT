@@ -7,12 +7,15 @@
       <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
         <div class="mdl-card__title dining-title">
           <h1 class="mdl-card__title-text" id="homeDining">Dining</h1>
-          <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
+          <button ng-hide="diningEditMode" ng-click="toggleEditMode()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
             <i class="material-icons">mode_edit</i>
+          </button>
+          <button ng-show="diningEditMode" ng-click="submitDiningMenu()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
+            <i class="material-icons">done</i>
           </button>
         </div>
         <div>
-          <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+          <div ng-hide="diningEditMode" class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
             <div class="mdl-tabs__tab-bar">
               <a href="#dining-Sunday" class="mdl-tabs__tab is-active">Sun</a>
               <a href="#dining-Monday" class="mdl-tabs__tab">Mon</a>
@@ -22,7 +25,8 @@
             </div>
             <div ng-repeat="(dayofweek, dayInfo) in diningWeek" class="mdl-tabs__panel" ng-class="{ 'is-active': dayofweek === 'Sunday' }" id="dining-{{dayofweek}}">
               <div class="dining-dayinfo">
-                <span class="dining-subtitle">HEAD CHEF: </span>{{dayInfo.Acomm}}
+                <span class="dining-subtitle">HEAD CHEF: </span>
+                {{dayInfo.Acomm}}
               </div>
               <div class="dining-linebreak"></div>
               <div class="dining-dayinfo">
@@ -47,9 +51,45 @@
                 </button>
               </div>
             </div>
+          </div>
+
+          <!-- Edit Dining Mode -->
+          <div ng-show="diningEditMode" class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+            <div class="mdl-tabs__tab-bar">
+              <a href="#dining-edit-Sunday" class="mdl-tabs__tab is-active">Sun</a>
+              <a href="#dining-edit-Monday" class="mdl-tabs__tab">Mon</a>
+              <a href="#dining-edit-Tuesday" class="mdl-tabs__tab">Tues</a>
+              <a href="#dining-edit-Wednesday" class="mdl-tabs__tab">Wed</a>
+              <a href="#dining-edit-Thursday" class="mdl-tabs__tab">Thurs</a>
+            </div>
+            <div ng-repeat="(dayofweek, dayInfo) in diningWeek" class="mdl-tabs__panel" ng-class="{ 'is-active': dayofweek === 'Sunday' }" id="dining-edit-{{dayofweek}}">
+              <div class="dining-dayinfo mdl-textfield mdl-js-textfield">
+                <span class="dining-subtitle">HEAD CHEF: </span>
+                <input class="mdl-textfield__input" type="text" ng-model="dayInfo.Acomm" />
+                <label class="mdl-textfield__label">Enter Head Chef...</label>
+              </div>
+              <div class="dining-dayinfo mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                <div class="dining-subtitle">MENU:</div>
+                <textarea class="mdl-textfield__input" rows="4" type="text" ng-model="dayInfo.menu"></textarea>
+                <label class="mdl-textfield__label">Enter menu...</label>
+              </div>
+              
+              <div class="dining-dayinfo">
+                <div class="dining-subtitle">LATE PLATES:</div>
+                <p ng-show="dayInfo.latePlates.length === 0" class="dining-no-lateplate">none</p>
+                <div ng-repeat="name in dayInfo.latePlates">{{name}}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clear Late Plates -->
+          <div ng-show="diningEditMode" class="mdl-card__actions mdl-card--border" ng-click="clearLatePlates()">
+            <button class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'>
+              Clear all Late Plates
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
     <!-- ELECTIONS -->
       <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="elections">

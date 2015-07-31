@@ -31,9 +31,10 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
     }
 
     // DINING
+    $scope.diningEditMode = false;
     var diningID;
     $http.get('/dining').success(function(week) {
-      var diningID = week.id;
+      diningID = week._id;
     });
 
     $scope.hasLatePlate = {};
@@ -52,6 +53,25 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
     }, function(err) {
       console.log(err);
     });
+
+    $scope.toggleEditMode = function() {
+      $scope.diningEditMode = !$scope.diningEditMode;
+    }
+
+    $scope.submitDiningMenu = function() {
+      Dining.update({diningID: diningID}, {updatedWeek: $scope.diningWeek},
+        function(week) {
+          console.log(week);
+          $scope.diningWeek = week;
+          $scope.toggleEditMode();
+        });
+    }
+
+    $scope.clearLatePlates = function() {
+      _.forEach($scope.diningWeek, function(dayInfo, dayofweek) {
+        $scope.diningWeek[dayofweek].latePlates = [];
+      })
+    }
 
     $scope.addLatePlate = function(dayofweek) {
       $http.put('/dining/' + diningID + '/latePlate/add',
@@ -79,5 +99,8 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
    })
 
 .factory('Dining', function($resource) {
-  return $resource('dining/:diningID');
+  return $resource('dining/:diningID', null, 
+    {
+      'update': {method: 'PUT'}
+    });
 });
