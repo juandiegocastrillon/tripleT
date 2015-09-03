@@ -73,7 +73,7 @@
                 <textarea class="mdl-textfield__input" rows="4" type="text" ng-model="dayInfo.menu"></textarea>
                 <label class="mdl-textfield__label">Enter menu...</label>
               </div>
-              
+
               <div class="dining-dayinfo">
                 <div class="dining-subtitle">LATE PLATES:</div>
                 <p ng-show="dayInfo.latePlates.length === 0" class="dining-no-lateplate">none</p>
@@ -110,23 +110,30 @@
         </div>
       </div>
 
-      
-    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
+  <!-- VP Korner -->
+    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="vp">
       <div class="mdl-card__title">
-        <h1 class="mdl-card__title-text" id="homeDining">VP corner</h1>
+        <h1 class="mdl-card__title-text" id="homeVP">VP Korner</h1>
       </div>
     </div>
-    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
+
+  <!-- Bibles -->
+    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp">
       <div class="mdl-card__title">
-        <h1 class="mdl-card__title-text" id="homeDining">Bibles</h1>
+        <h1 class="mdl-card__title-text">Bibles</h1>
       </div>
       <div>
         <iframe id="bibles" src="https://drive.google.com/embeddedfolderview?id=0B7doyB_hQs06aktkSl9QZjlRbUk#list"></iframe>
       </div>
     </div>
-    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
-      <div class="mdl-card__title">
-        <h1 class="mdl-card__title-text" id="homeDining">PM Requests</h1>
+
+  <!-- PM Requests -->
+    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp">
+      <div class="mdl-card__title" ng-model="collapsed" ng-click="collapsed=!collapsed">
+        <h1 class="mdl-card__title-text">PM Requests</h1>
+      </div>
+      <div>
+        <iframe ng-show="collapsed" id="pmRequests" width=500 height=500 src="https://docs.google.com/spreadsheets/d/1fW9nbaISyiGfA1F58n2khNWPeO7NxtgYWHpZmV5DVB0/edit?usp=sharing&widget=true&single=true&output=html&rm=minimal"></iframe>
       </div>
     </div>
   </div>

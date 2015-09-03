@@ -7,7 +7,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
 })
 
 .controller('HomeCtrl',
-  function($scope, $location, $http, $timeout, Elections, Dining, AuthService) {
+  function($scope, $location, $http, $timeout, Elections, Dining, Pm, AuthService) {
     // ELECTION
     Elections.query({}, function(elections) {
       $scope.elections = _.takeRight(elections,10);
@@ -96,11 +96,27 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
           console.error(err);
         })
     }
+
+    // PM REQUESTS
+    var pmReqID;
+    $http.get('/pm').success(function(pmReqID) {
+        pmReqID = pmReqID._id;
+        console.log('got the id!!');
+    });
+
+  //   var pmRequests = {};
+  //   Pm.get({pmID: pmID}, function(requests) {
+  //     pmRequests = requests;
+  //   });
    })
 
 .factory('Dining', function($resource) {
-  return $resource('dining/:diningID', null, 
+  return $resource('dining/:diningID', null,
     {
       'update': {method: 'PUT'}
     });
-});
+})
+
+.factory('Pm', function($resource) {
+  return $resource('pm/:pmID', null);
+})

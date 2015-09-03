@@ -44,6 +44,8 @@ require('./models/user.js');
 require('./models/vote.js');
 require('./models/election.js');
 require('./models/diningWeek.js');
+require('./models/pmRequest.js');
+require('./models/pmRequestContainer.js');
 
 require('./auth/passport.js')(passport);
 
@@ -66,6 +68,7 @@ require('./routes/routes_users.js')(app);
 require('./routes/index.js')(app);
 require('./routes/routes_voting.js')(app);
 require('./routes/routes_dining.js')(app);
+require('./routes/routes_pm.js')(app);
 
 app.listen(process.env.PORT || 5000);
 console.log("Server Started");
