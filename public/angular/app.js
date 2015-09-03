@@ -7,7 +7,7 @@ angular.module('tripleT', [
   'tripleT.dashboard',
   'tripleT.election',
   'tripleT.userManagement',
-  'tripleT.header-footer'
+  'tripleT.layout'
 ])
 
 .config(function($routeProvider) {

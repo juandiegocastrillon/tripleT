@@ -1,6 +1,6 @@
 <!-- Uses a header that scrolls with the text, rather than staying
   locked at the top -->
-<ttheader>
+<ttlayout>
   <div class="page-content">
     <div class="mdl-grid content" id="dashboard-cards">
       <!-- DINING -->
@@ -17,13 +17,9 @@
         <div>
           <div ng-hide="diningEditMode" class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
             <div class="mdl-tabs__tab-bar">
-              <a href="#dining-Sunday" class="mdl-tabs__tab is-active">Sun</a>
-              <a href="#dining-Monday" class="mdl-tabs__tab">Mon</a>
-              <a href="#dining-Tuesday" class="mdl-tabs__tab">Tues</a>
-              <a href="#dining-Wednesday" class="mdl-tabs__tab">Wed</a>
-              <a href="#dining-Thursday" class="mdl-tabs__tab">Thurs</a>
+              <a ng-repeat="(index, dayofweek) in daysOfWeek" href="#dining-{{dayofweek}}" class="mdl-tabs__tab" ng-class="{ 'is-active': dayofweek === currentDayOfWeek }">{{abbrevDOW[index]}}</a>
             </div>
-            <div ng-repeat="(dayofweek, dayInfo) in diningWeek" class="mdl-tabs__panel" ng-class="{ 'is-active': dayofweek === 'Sunday' }" id="dining-{{dayofweek}}">
+            <div ng-repeat="(dayofweek, dayInfo) in diningWeek" class="mdl-tabs__panel" ng-class="{ 'is-active': dayofweek === currentDayOfWeek }" id="dining-{{dayofweek}}">
               <div class="dining-dayinfo">
                 <span class="dining-subtitle">HEAD CHEF: </span>
                 {{dayInfo.Acomm}}
@@ -111,24 +107,24 @@
       </div>
 
       
-    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
-      <div class="mdl-card__title">
-        <h1 class="mdl-card__title-text" id="homeDining">VP corner</h1>
+      <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
+        <div class="mdl-card__title">
+          <h1 class="mdl-card__title-text" id="homeDining">VP corner</h1>
+        </div>
       </div>
-    </div>
-    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
-      <div class="mdl-card__title">
-        <h1 class="mdl-card__title-text" id="homeDining">Bibles</h1>
+      <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
+        <div class="mdl-card__title">
+          <h1 class="mdl-card__title-text" id="homeDining">Bibles</h1>
+        </div>
+        <div>
+          <iframe id="bibles" src="https://drive.google.com/embeddedfolderview?id=0B7doyB_hQs06aktkSl9QZjlRbUk#list"></iframe>
+        </div>
       </div>
-      <div>
-        <iframe id="bibles" src="https://drive.google.com/embeddedfolderview?id=0B7doyB_hQs06aktkSl9QZjlRbUk#list"></iframe>
-      </div>
-    </div>
-    <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
-      <div class="mdl-card__title">
-        <h1 class="mdl-card__title-text" id="homeDining">PM Requests</h1>
+      <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
+        <div class="mdl-card__title">
+          <h1 class="mdl-card__title-text" id="homeDining">PM Requests</h1>
+        </div>
       </div>
     </div>
   </div>
-</ttheader>
-<ttfooter>
+</ttlayout>

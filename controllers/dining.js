@@ -71,7 +71,6 @@ function getDining(req, res) {
 function updateDining(req, res) {
    var diningWeekID = xss(req.params.diningID);
    var updatedWeek = req.body.updatedWeek;
-   console.log(updatedWeek);
 
    DiningWeek.findOne({_id: diningWeekID})
       .exec(function(err, week) {

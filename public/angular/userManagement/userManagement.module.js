@@ -8,9 +8,8 @@ angular.module('tripleT.userManagement', ['ngRoute'])
 
 .controller('SignInCtrl',
   function($scope, $location, $http, $window){
-    $scope.credentials = {};
-    $scope.signin = function() {
-      $http.post('/auth/signin', $scope.credentials)
+    $scope.signin = function(credentials) {
+      $http.post('/auth/signin', credentials)
       .success(function(res) {
         $location.path('/');
         $window.location.reload();
