@@ -7,7 +7,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
 })
 
 .controller('HomeCtrl',
-  function($scope, $location, $http, $timeout, Elections, Dining, Pm, AuthService) {
+  function($scope, $location, $http, $timeout, Elections, Dining, Pm, AuthService, dateFilter) {
     // ELECTION
     Elections.query({}, function(elections) {
       $scope.elections = _.takeRight(elections,10);
@@ -30,21 +30,33 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
       })
     }
 
-    // DINING
+    /**
+     * DINING
+     */
+
+    // set variables
+    $scope.daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
+    $scope.abbrevDOW = ["Sun", "Mon", "Tues", "Wed", "Thurs"];
     $scope.diningEditMode = false;
     var diningID;
-    $http.get('/dining').success(function(week) {
+
+    // get current dining week ID
+    Dining.get({diningID: ''}, function(week) {
       diningID = week._id;
+    }, function() {
+      // create a new dining week
+      Dining.save({diningID: ''}, {}, function(week) {
+        diningID = week._id;
+      });
     });
 
+    // set dining week
     $scope.hasLatePlate = {};
     Dining.get({diningID: diningID}, function(week) {
       $scope.diningWeek = {};
-      $scope.diningWeek.Sunday = week.Sunday;
-      $scope.diningWeek.Monday = week.Monday;
-      $scope.diningWeek.Tuesday = week.Tuesday;
-      $scope.diningWeek.Wednesday = week.Wednesday;
-      $scope.diningWeek.Thursday = week.Thursday;
+      _.forEach($scope.daysOfWeek, function(day) {
+        $scope.diningWeek[day] = week[day];
+      });
 
       _.forEach($scope.diningWeek, function(dayInfo, dayofweek) {
         $scope.hasLatePlate[dayofweek] =
@@ -53,6 +65,14 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
     }, function(err) {
       console.log(err);
     });
+
+    // set the active tab to the current day
+    var day = new Date();
+    $scope.currentDayOfWeek = dateFilter(day, 'EEEE');
+    // if current day is not a school night, display Sunday's menu
+    if ( !_.includes($scope.daysOfWeek, $scope.currentDayOfWeek) ) {
+      $scope.currentDayOfWeek = "Sunday";
+    }
 
     $scope.toggleEditMode = function() {
       $scope.diningEditMode = !$scope.diningEditMode;

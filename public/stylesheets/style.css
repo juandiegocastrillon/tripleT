@@ -11,6 +11,10 @@
    background-color: white;
 }
 
+#signin-textbox {
+   padding: 10px;
+}
+
 #dashboard-cards {
    max-width: 1080px;
 }
@@ -119,10 +123,6 @@
 
 .late-plate-btn {
    margin-top: 10px;
-}
-
-.mdl-mini-footer {
-   margin-top: 100px;
 }
 
 #bibles {
