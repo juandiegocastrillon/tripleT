@@ -128,8 +128,20 @@
         <div class="mdl-card__title">
           <h1 class="mdl-card__title-text">PM Requests</h1>
         </div>
+        <form novalidate>
+          <div class="mdl-card__actions mdl-card--border">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="text" ng-model="pmRequest.item" />
+              <label class="mdl-textfield__label" for="sample3">Item...</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="text" ng-model="pmRequest.reason" />
+              <label class="mdl-textfield__label" for="sample3">Reason...</label>
+            </div>
+            <button ng-click="makeRequest(pmRequest)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="makeRequestBtn">Make Request</button>
+          </div>
+        </form>
       </div>
-
     </div>
   </div>
 </ttlayout>

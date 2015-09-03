@@ -128,6 +128,10 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
   //   Pm.get({pmID: pmID}, function(requests) {
   //     pmRequests = requests;
   //   });
+    $scope.makeRequest = function(pmRequest) {
+      console.log(pmRequest.item);
+      console.log(pmRequest.reason);
+    }
    })
 
 .factory('Dining', function($resource) {

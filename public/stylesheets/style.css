@@ -128,3 +128,8 @@
 #bibles {
    height: 300px;
 }
+
+#makeRequestBtn {
+  float: right;
+  margin: 10px;
+}
