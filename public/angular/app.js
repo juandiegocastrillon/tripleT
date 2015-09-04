@@ -54,8 +54,6 @@ angular.module('tripleT', [
     return $http.post('/auth/signin', credentials)
     .then(function(res) {
       return res.data;
-    }, function(res) {
-      console.log(res);
     });
   };
 
@@ -67,9 +65,7 @@ angular.module('tripleT', [
 })
 
 .constant("USER_ROLES", {
-  admin: 'admin',
-  comm: 'comm',
-  pm: 'comm'
+  admin: 'admin'
 })
 
 .controller("AppCtrl", function($scope, $rootScope, $location, USER_ROLES, AuthService) {
