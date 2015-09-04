@@ -6,8 +6,8 @@
         <a class="header-title" href='/#/'>Phi Sig Triple-T</a>
       </span>
       <div class="mdl-layout-spacer"></div>
-      <span ng-show='user'>Hello, {{user.displayName}}</span>
-      <nav ng-show='user' class="mdl-navigation">
+      <span ng-if='currentUser'>Hello, {{currentUser.displayName}}</span>
+      <nav ng-if='currentUser' class="mdl-navigation">
         <a class="mdl-navigation__link" href="/auth/signout">Sign Out</a>
       </nav>
     </div>
