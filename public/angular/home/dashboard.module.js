@@ -128,10 +128,24 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
   //   Pm.get({pmID: pmID}, function(requests) {
   //     pmRequests = requests;
   //   });
+
+    Pm.get({}, function(pmRequests) {
+      $scope.pmRequests = pmRequests.requests;
+      console.log($scope.pmRequests);
+    });
+
     $scope.makeRequest = function(pmRequest) {
-      console.log(pmRequest.item);
-      console.log(pmRequest.reason);
+      var newReq = {
+        author: $scope.currentUser.name,
+        item: pmRequest.item,
+        reason: pmRequest.reason,
+      }
+      Pm.save(newReq, function(res){
+        $scope.pmRequests.push(newReq);
+        console.log(res);
+      });
     }
+
    })
 
 .factory('Dining', function($resource) {
@@ -142,5 +156,5 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
 })
 
 .factory('Pm', function($resource) {
-  return $resource('pm/:pmID', null);
+  return $resource('pm/', null);
 })

@@ -1,15 +1,12 @@
 var mongoose = require('mongoose');
-var PmRequest = mongoose.model('PmRequest');
+var PmRequest = mongoose.model('PmRequest').schema;
 
 var pmRequestContainerSchema = mongoose.Schema({
   date: {
     type: Date,
     required: true
   },
-  requests: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'PmRequest'
-  }]
+  requests: [PmRequest]
 });
 
 pmRequestContainerSchema.methods.addRequest = function(request) {

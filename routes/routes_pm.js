@@ -4,5 +4,6 @@ module.exports = function(app) {
   var pm = require('../controllers/pm.js');
 
   app.route('/pm')
-    .get(pm.getPmReqID);
+    .get(pm.getPmRequests)
+    .post(pm.addRequest);
 }
