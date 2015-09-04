@@ -129,36 +129,40 @@
           <h1 class="mdl-card__title-text">PM Requests</h1>
         </div>
 
-        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+        <!-- Display current requests -->
+        <table class="mdl-data-table mdl-js-data-table" id="pmRequestTable">
           <thead>
             <tr>
-              <th class="mdl-data-table__cell--non-numeric">Brother</th>
-              <th class="mdl-data-table__cell--non-numeric">Item</th>
-              <th class="mdl-data-table__cell--non-numeric">Reason</th>
+              <th class="mdl-data-table__cell--non-numeric ">Brother</th>
+              <th class="mdl-data-table__cell--non-numeric ">Item</th>
+              <th class="mdl-data-table__cell--non-numeric pm-request-table__reason">Reason</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="request in pmRequests">
-              <td>{{request.author}}</td>
-              <td>{{request.item}}</td>
-              <td>{{request.reason}}</td>
+              <td class="pm-request-table">{{request.author}}</td>
+              <td class="pm-request-table">{{request.item}}</td>
+              <td class="pm-request-table">{{request.reason}}</td>
             </tr>
           </tbody>
         </table>
 
-        <form novalidate>
+        <!-- Form for adding new requests -->
+        <form novalidate name="pmRequestForm">
           <div class="mdl-card__actions mdl-card--border">
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
               <input class="mdl-textfield__input" type="text" ng-model="pmRequest.item" />
-              <label class="mdl-textfield__label" for="sample3">Item...</label>
+              <label class="mdl-textfield__label" for="pmRequestForm">Item...</label>
             </div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
               <input class="mdl-textfield__input" type="text" ng-model="pmRequest.reason" />
-              <label class="mdl-textfield__label" for="sample3">Reason...</label>
+              <label class="mdl-textfield__label" for="pmRequestForm">Reason...</label>
             </div>
-            <button ng-click="makeRequest(pmRequest)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="makeRequestBtn">Make Request</button>
+            <button ng-click="makeRequest(pmRequest); pmRequest = ''" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+              id="makeRequestBtn" type="submit">Make Request</button>
           </div>
         </form>
+
       </div>
     </div>
   </div>

@@ -9,8 +9,7 @@ angular.module('tripleT.layout', [])
   }
 })
 .controller('LayoutCtrl',
-  function($scope, $location, $anchorScroll, AuthService) {
-    $scope.user = AuthService.user;
+  function($scope, $location, $anchorScroll) {
     $scope.jumpTo = function(idTag) {
       $location.hash(idTag);
       $anchorScroll();

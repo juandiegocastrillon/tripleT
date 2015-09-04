@@ -7,8 +7,10 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
 })
 
 .controller('HomeCtrl',
-  function($scope, $location, $http, $timeout, Elections, Dining, Pm, AuthService, dateFilter) {
-    // ELECTION
+  function($scope, $location, $http, $timeout, Elections, Dining, Pm, dateFilter) {
+    /*******************************
+     ************ ELECTIONS ********
+     *******************************/
     Elections.query({}, function(elections) {
       $scope.elections = _.takeRight(elections,10);
     }, function(err) {
@@ -30,10 +32,9 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
       })
     }
 
-    /**
-     * DINING
-     */
-
+    /*******************************
+     ************ DINING ***********
+     *******************************/
     // set variables
     $scope.daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
     $scope.abbrevDOW = ["Sun", "Mon", "Tues", "Wed", "Thurs"];
@@ -60,7 +61,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
 
       _.forEach($scope.diningWeek, function(dayInfo, dayofweek) {
         $scope.hasLatePlate[dayofweek] =
-          _.includes(dayInfo.latePlates, AuthService.user.kerberos);
+          _.includes(dayInfo.latePlates, $scope.currentUser.kerberos);
       });
     }, function(err) {
       console.log(err);
@@ -97,7 +98,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
       $http.put('/dining/' + diningID + '/latePlate/add',
         { dayofweek: dayofweek })
         .success(function(week) {
-          $scope.diningWeek[dayofweek].latePlates.push(AuthService.user.kerberos);
+          $scope.diningWeek[dayofweek].latePlates.push($scope.currentUser.kerberos);
           $scope.hasLatePlate[dayofweek] = true;
         })
         .error(function(err) {
@@ -109,7 +110,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
       $http.put('/dining/' + diningID + '/latePlate/remove',
         { dayofweek: dayofweek })
         .success(function(week) {
-          _.pull($scope.diningWeek[dayofweek].latePlates, AuthService.user.kerberos);
+          _.pull($scope.diningWeek[dayofweek].latePlates, $scope.currentUser.kerberos);
           $scope.hasLatePlate[dayofweek] = false;
         })
         .error(function(err) {
@@ -135,6 +136,8 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
     });
 
     $scope.makeRequest = function(pmRequest) {
+      console.log($scope.class);
+      console.log("in it ");
       var newReq = {
         author: $scope.currentUser.name,
         item: pmRequest.item,
@@ -142,7 +145,6 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
       }
       Pm.save(newReq, function(res){
         $scope.pmRequests.push(newReq);
-        console.log(res);
       });
     }
 

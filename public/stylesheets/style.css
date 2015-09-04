@@ -133,3 +133,18 @@
   float: right;
   margin: 10px;
 }
+
+#pmRequestTable {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+td.pm-request-table {
+  text-align: left;
+}
+
+.mdl-data-table__cell--non-numeric.pm-request-table__reason {
+  text-align:center;
+}
