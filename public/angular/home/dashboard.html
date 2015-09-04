@@ -133,16 +133,16 @@
         <table class="mdl-data-table mdl-js-data-table" id="pmRequestTable">
           <thead>
             <tr>
-              <th class="mdl-data-table__cell--non-numeric ">Brother</th>
               <th class="mdl-data-table__cell--non-numeric ">Item</th>
               <th class="mdl-data-table__cell--non-numeric pm-request-table__reason">Reason</th>
+              <th class="mdl-data-table__cell--non-numeric ">Brother</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="request in pmRequests">
-              <td class="pm-request-table">{{request.author}}</td>
               <td class="pm-request-table">{{request.item}}</td>
               <td class="pm-request-table">{{request.reason}}</td>
+              <td class="pm-request-table">{{request.author}}</td>
             </tr>
           </tbody>
         </table>
