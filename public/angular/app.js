@@ -24,8 +24,14 @@ angular.module('tripleT', [
     }, 500)
   });
 
-  $rootScope.$on('$routeChangeStart', function(event) {
-    if (!$rootScope.currentUser) {
+  // When a route changes, deny access to route if
+  // user isn't authenticated.
+  //
+  // If there appears to be no current user, ask the server
+  // for currently signed-in user. Session gets cleared after
+  // page refresh
+  $rootScope.$on('$routeChangeStart', function() {
+    if (!AuthService.isLoggedIn()) {
       $http.get('/users/me')
       .then(function(res) {
         var user = res.data;
@@ -33,7 +39,6 @@ angular.module('tripleT', [
       }, function(res) {
         $location.path('/signin');
         if (!AuthService.isLoggedIn()) {
-          console.log('DENY');
           $location.path('/signin');
         }
       });

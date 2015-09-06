@@ -14,5 +14,4 @@ angular.module('tripleT.layout', [])
       $location.hash(idTag);
       $anchorScroll();
     }
-
   });
