@@ -18,7 +18,11 @@ var electionSchema = mongoose.Schema({
   votes : [{
     type: mongoose.Schema.ObjectId,
     ref: 'Vote'
-  }]
+  }],
+  creator: {
+    type: String,
+    required: true
+  }
 });
 
 

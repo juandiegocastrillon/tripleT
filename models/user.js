@@ -43,6 +43,10 @@ var UserSchema = new Schema({
 		default: '',
 		validate: [validateLocalStrategyProperty, 'Please fill in your email']
 	},
+	role: {
+		type: String,
+		default: ''
+	},
 	password: {
 		type: String,
 		default: '',

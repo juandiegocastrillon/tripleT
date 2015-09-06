@@ -7,7 +7,7 @@
       <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
         <div class="mdl-card__title dining-title">
           <h1 class="mdl-card__title-text" id="homeDining">Dining</h1>
-          <button ng-hide="diningEditMode" ng-click="toggleEditMode()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
+          <button ng-hide="diningEditMode" ng-if="isAuthorized(userRoles.admin)" ng-click="toggleEditMode()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
             <i class="material-icons">mode_edit</i>
           </button>
           <button ng-show="diningEditMode" ng-click="submitDiningMenu()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
@@ -95,7 +95,7 @@
         <div>
           <div ng-repeat="election in elections" class="home-election mdl-card__supporting-text" ng-click="redirect('election/' + election._id)" >
             <div class="home-election-name mdl-js-ripple-effect">{{election.name}}</div>
-              <button ng-hide="election.show" ng-click='getWinner(election); $event.stopPropagation()' class="show-results-icon mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+              <button ng-hide="election.show" ng-if="election.creator === currentUser.kerberos" ng-click='getWinner(election); $event.stopPropagation()' class="show-results-icon mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                 See Winner
               </button>
               <p ng-show="election.show" class="animated zoomIn home-election-winner-text">{{election.winner}}</p>

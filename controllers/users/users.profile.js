@@ -9,6 +9,17 @@ var _ = require('lodash'),
 	passport = require('passport'),
 	User = mongoose.model('User');
 
+var allUsers = function(req, res) {
+	User.find({}, function(err, users) {
+		if (!users) {
+			return res.status(500).send({
+				'message': "Couldn't get users"
+			});
+		} else {
+			res.jsonp(users);
+		}
+	})
+}
 /**
  * Get a single User by ID.
  * @route GET /users/:userId
@@ -75,6 +86,7 @@ var hasAuthorization = function(req, res, next) {
   next();
 }
 
+module.exports.allUsers = allUsers;
 module.exports.one = one;
 module.exports.me = me;
 module.exports.removeOne = removeOne;

@@ -6,6 +6,9 @@
       </span>
       <div class="mdl-layout-spacer"></div>
       <span ng-if='currentUser'>Hello, {{currentUser.displayName}}</span>
+      <nav ng-if='isAuthorized(userRoles.admin)' class="mdl-navigation">
+        <a class="mdl-navigation__link" href="/#/userManagement">Manage Users</a>
+      </nav>
       <nav ng-if='currentUser' class="mdl-navigation">
         <a class="mdl-navigation__link" href="/auth/signout">Sign Out</a>
       </nav>
