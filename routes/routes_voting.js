@@ -3,7 +3,7 @@
 module.exports = function(app) {
    var voting = require('../controllers/voting');
    app.route("/voting")
-      .get(voting.getLastElectionNames)
+      .get(voting.getElections)
       .post(voting.makeNewElection);
 
    app.route("/voting/:electionID")

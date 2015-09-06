@@ -10,8 +10,8 @@ var Election = mongoose.model('Election');
 var Vote = mongoose.model('Vote');
 
 
-function getLastElectionNames(req, res) {
-   Election.find({}, 'name candidates', function(err, elections) {
+function getElections(req, res) {
+   Election.find({}, 'name candidates creator', function(err, elections) {
       if (err) {
          res.status(400).send("Error");
       } else {
@@ -25,6 +25,7 @@ function makeNewElection(req, res) {
    newElectionData.name = xss(req.body.name);
    newElectionData.candidates = xss(req.body.candidates).split(',');
    newElectionData.candidates = _.uniq(newElectionData.candidates);
+   newElectionData.creator = req.user.kerberos;
 
    var newElection = new Election(newElectionData);
 
@@ -133,8 +134,12 @@ function getResult(req, res) {
       .populate('votes')
       .exec(function(err, election) {
          if (election) {
-            var winner = irv.getWinner(election.votes);
-            res.status(200).send(winner);
+            if (election.creator === req.user.kerberos) {
+               var winner = irv.getWinner(election.votes);
+               res.status(200).send(winner);   
+            } else {
+               res.status(400).send("Not authorized to get winner");
+            }
          } else {
             console.log(err);
             res.status(400).send("Couldn't get votes");
@@ -142,7 +147,7 @@ function getResult(req, res) {
       });
 }
 
-module.exports.getLastElectionNames = getLastElectionNames;
+module.exports.getElections = getElections;
 module.exports.makeNewElection = makeNewElection;
 module.exports.getElection = getElection;
 module.exports.getVotes = getVotes;

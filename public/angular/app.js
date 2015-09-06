@@ -61,6 +61,14 @@ angular.module('tripleT', [
     return !!$rootScope.currentUser;
   };
 
+  authService.isAuthorized = function(authorizedRoles) {
+    if (!angular.isArray(authorizedRoles)) {
+      authorizedRoles = [authorizedRoles];
+    }
+    return (authService.isLoggedIn() &&
+      authorizedRoles.indexOf($rootScope.currentUser.role) !== -1);
+  }
+
   return authService;
 })
 
@@ -69,10 +77,8 @@ angular.module('tripleT', [
 })
 
 .controller("AppCtrl", function($scope, $rootScope, $location, USER_ROLES, AuthService) {
-
-  // store current logged in user
   $scope.userRoles = USER_ROLES;
-
+  $scope.isAuthorized = AuthService.isAuthorized;
   $rootScope.setCurrentUser = function(user) {
     $rootScope.currentUser = user;
   };

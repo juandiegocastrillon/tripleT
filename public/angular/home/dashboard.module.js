@@ -13,6 +13,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
      *******************************/
     Elections.query({}, function(elections) {
       $scope.elections = _.takeRight(elections,10);
+      console.log($scope.elections);
     }, function(err) {
       console.log(err);
     });

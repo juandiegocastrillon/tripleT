@@ -18,6 +18,7 @@ var _ = require('lodash'),
  * 		name : string
  * 		kerberos : unique string
  * 		password : string longer than 6 characters
+ * 		role : string describing privileges
  * @return User Object - success
  * 			{message: error-message} - failure
  */

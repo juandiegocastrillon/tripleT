@@ -3,6 +3,11 @@ angular.module('tripleT.userManagement', ['ngRoute'])
   $routeProvider.when('/signin', {
     templateUrl: '/angular/home/signin.html',
     controller: 'SignInCtrl'
+  });
+
+  $routeProvider.when('/userManagement', {
+    templateUrl: '/angular/home/userManagement.html',
+    controller: 'UserMgmtCtrl'
   })
 })
 
@@ -16,4 +21,13 @@ angular.module('tripleT.userManagement', ['ngRoute'])
         $location.path('/');
       })
     }
-  });
+  })
+
+.controller('UserMgmtCtrl',
+  function($scope, $http) {
+    $http.get('/users')
+      .then(function(res) {
+        $scope.users = res.data;
+      })
+
+  })

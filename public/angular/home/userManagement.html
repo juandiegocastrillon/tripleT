@@ -1,0 +1,29 @@
+<ttlayout>
+   <div class='page-content'>
+   	  <h2 class='text-center'>User Management</h2>	
+      <div class="mdl-grid content">
+         <div class="mdl-cell--3-col"></div>
+         <div class="mdl-cell--6-col">
+            <div>
+            	<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable">
+						<thead>
+					   	<tr>
+					      	<th class="mdl-data-table__cell--non-numeric">Name</th>
+					      	<th>Kerberos</th>
+					      	<th>User Privileges</th>
+					    	</tr>
+					  	</thead>
+					  	<tbody>
+					   	<tr ng-repeat="user in users">
+					      	<td class="mdl-data-table__cell--non-numeric">{{ user.name }}</td>
+					      	<td class="mdl-data-table__cell--non-numeric">{{ user.kerberos }}</td>
+					      	<td class="mdl-data-table__cell--non-numeric">{{ user.role }}</td>
+					    	</tr>
+					  </tbody>
+					</table>
+            </div>
+         </div>
+         <div class="mdl-cell--3-col"></div>
+      </div>
+   </div>
+</ttlayout>
