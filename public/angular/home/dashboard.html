@@ -7,7 +7,7 @@
       <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
         <div class="mdl-card__title dining-title">
           <h1 class="mdl-card__title-text" id="homeDining">Dining</h1>
-          <button ng-hide="diningEditMode" ng-if="isAuthorized(userRoles.admin)" ng-click="toggleEditMode()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
+          <button ng-hide="diningEditMode" ng-if="isAuthorized(userRoles.admin)" ng-click="toggleDiningEditMode()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
             <i class="material-icons">mode_edit</i>
           </button>
           <button ng-show="diningEditMode" ng-click="submitDiningMenu()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">

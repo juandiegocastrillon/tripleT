@@ -76,7 +76,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
       $scope.currentDayOfWeek = "Sunday";
     }
 
-    $scope.toggleEditMode = function() {
+    $scope.toggleDiningEditMode = function() {
       $scope.diningEditMode = !$scope.diningEditMode;
     }
 
@@ -85,7 +85,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
         function(week) {
           console.log(week);
           $scope.diningWeek = week;
-          $scope.toggleEditMode();
+          $scope.toggleDiningEditMode();
         });
     }
 

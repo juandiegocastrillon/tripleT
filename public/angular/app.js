@@ -1,6 +1,6 @@
 'use strict';
 
-// App level module 
+// App level module
 angular.module('tripleT', [
   'ngResource',
   'ngRoute',
@@ -73,7 +73,8 @@ angular.module('tripleT', [
 })
 
 .constant("USER_ROLES", {
-  admin: 'admin'
+  admin: 'admin',
+  pm:    'pm'
 })
 
 .controller("AppCtrl", function($scope, $rootScope, $location, USER_ROLES, AuthService) {
