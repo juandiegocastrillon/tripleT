@@ -22,6 +22,21 @@ function getPmRequests(req, res) {
   });
 }
 
+function getMostRecentPmRequestContainer(req, res) {
+  PmRequestContainer.find({}, function(err, pmRequestContainers) {
+    if (!pmRequestContainers){
+      res.status(400).send(NO_PM_REQUEST_CONTAINER_MSG);
+      return;
+    }
+    mostRecent = pmRequestContainers[0];
+    _.forEach(pmRequestContainers, function(pmRequestContainer) {
+      if (pmRequestContainer.date > mostRecent.date)
+        mostRecent = pmRequestContainer;
+    });
+    return res.status(400).json(pmRequestContainer);
+  });
+}
+
 function createNewRequestContainer() {
   PmRequestContainer.find().remove().exec();
   var newContainer = new PmRequestContainer({date: new Date(), requests: []});
