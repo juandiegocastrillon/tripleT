@@ -139,12 +139,22 @@
   margin-right: auto;
   text-align: center;
   margin-bottom: 16px;
+  table-layout: fixed;
+  width: 100;
 }
 
 td.pm-request-table {
   text-align: left;
+  word-wrap: break-word;
+  width: 100px;
 }
 
 .mdl-data-table__cell--non-numeric.pm-request-table__reason {
   text-align:center;
+}
+
+.no-pm-requests {
+  color: gray;
+  font-style: italic;
+  margin-left: 15px;
 }

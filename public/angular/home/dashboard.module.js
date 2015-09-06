@@ -125,19 +125,12 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
         console.log('got the id!!');
     });
 
-  //   var pmRequests = {};
-  //   Pm.get({pmID: pmID}, function(requests) {
-  //     pmRequests = requests;
-  //   });
-
     Pm.get({}, function(pmRequests) {
       $scope.pmRequests = pmRequests.requests;
-      console.log($scope.pmRequests);
+      $scope.hasPmRequests = ($scope.pmRequests.length != 0);
     });
 
     $scope.makeRequest = function(pmRequest) {
-      console.log($scope.class);
-      console.log("in it ");
       var newReq = {
         author: $scope.currentUser.name,
         item: pmRequest.item,
@@ -145,6 +138,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
       }
       Pm.save(newReq, function(res){
         $scope.pmRequests.push(newReq);
+        $scope.hasPmRequests = true;
       });
     }
 

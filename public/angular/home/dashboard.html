@@ -130,6 +130,7 @@
         </div>
 
         <!-- Display current requests -->
+        <div ng-if="hasPmRequests">
         <table class="mdl-data-table mdl-js-data-table" id="pmRequestTable">
           <thead>
             <tr>
@@ -146,6 +147,11 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div ng-if="!hasPmRequests">
+        <p class="no-pm-requests">No requests have been made</p>
+      </div>
+
 
         <!-- Form for adding new requests -->
         <form novalidate name="pmRequestForm">

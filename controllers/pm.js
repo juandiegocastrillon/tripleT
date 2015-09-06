@@ -30,7 +30,6 @@ function createNewRequestContainer() {
 }
 
 function addRequest(req, res){
-
   PmRequestContainer.findOne({}, function(err, pmRequests) {
     if (!pmRequests)
       res.status(400).send(NO_PM_REQUEST_CONTAINER_MSG);
@@ -38,7 +37,7 @@ function addRequest(req, res){
       res.status(400).send(err);
     }
     else {
-      var author   = xss(req.body.author),
+      var author = xss(req.body.author),
           item   = xss(req.body.item),
           reason = xss(req.body.reason);
 
