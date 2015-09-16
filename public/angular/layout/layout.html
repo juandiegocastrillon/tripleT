@@ -1,24 +1,25 @@
-<div class="mdl-layout mdl-js-layout mdl-layout--overlay-drawer-button">
-  <header class="mdl-layout__header mdl-layout__header--scroll">
-    <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">
-        <a class="header-title" href='/#/'>Phi Sig Triple-T</a>
+<div layout="column" layout-fill>
+  <md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+      <span>
+        <a href='/#/' class='md-headline'>Phi Sig Triple-T</a>
       </span>
-      <div class="mdl-layout-spacer"></div>
-      <span ng-if='currentUser'>Hello, {{currentUser.displayName}}</span>
-      <nav ng-if='isAuthorized(userRoles.admin)' class="mdl-navigation">
-        <a class="mdl-navigation__link" href="/#/userManagement">Manage Users</a>
+      <span flex></span>
+      <span ng-if='currentUser' class="toolbar-link md-body-2">Hello, {{currentUser.displayName}}</span>
+      <nav ng-if='isAuthorized(userRoles.admin)'>
+        <a href="/#/userManagement" class="toolbar-link md-body-2">Manage Users</a>
       </nav>
-      <nav ng-if='currentUser' class="mdl-navigation">
-        <a class="mdl-navigation__link" href="/auth/signout">Sign Out</a>
+      <nav ng-if='currentUser'>
+        <a href="/auth/signout" class="toolbar-link md-body-2">Sign Out</a>
       </nav>
     </div>
-
-  </header>
-  <main class="mdl-layout__content" ng-transclude></main>
-  <footer class="mdl-mini-footer">
-    <div class="mdl-mini-footer__left-section">
-      <div class="mdl-logo">MIT | Phi Sigma Kappa</div>
+  </md-toolbar>
+  <main layout="column" layout-align="space-around center">
+    <md-content ng-transclude></md-content>
+  </main>
+<!--   <footer>
+    <div layout="row" layout-align="center center">
+      <h2>MIT | Phi Sigma Kappa</h2>
     </div>
-  </footer>
+  </footer> -->
 </div>

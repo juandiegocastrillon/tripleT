@@ -7,7 +7,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
 })
 
 .controller('HomeCtrl',
-  function($scope, $location, $http, $timeout, Elections, Dining, dateFilter) {
+  function($scope, $location, $http, $timeout, $mdDialog, Elections, Dining, dateFilter) {
     /*******************************
      ************ ELECTIONS ********
      *******************************/
@@ -19,6 +19,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
     });
 
     $scope.redirect = function(route) {
+      console.log(route);
       $location.path(route);
     }
 
@@ -31,6 +32,33 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
       .error(function(err) {
         console.log(err);
       })
+    }
+
+    $scope.voteInElection = function(ev) {
+      $mdDialog.show({
+        controller: voteElectionCtrl,
+        templateUrl: '/angular/election/election-view.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true
+      })
+      .then(function(answer) {
+        // success
+      }, function() {
+        // failure
+      });
+    };
+
+    function voteElectionCtrl($scope, $mdDialog) {
+      $scope.hide = function() {
+        $mdDialog.hide();
+      };
+      $scope.cancel = function() {
+        $mdDialog.cancel();
+      };
+      $scope.answer = function(answer) {
+        $mdDialog.hide(answer);
+      };
     }
 
     /*******************************
@@ -55,10 +83,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
     // set dining week
     $scope.hasLatePlate = {};
     Dining.get({diningID: diningID}, function(week) {
-      $scope.diningWeek = {};
-      _.forEach($scope.daysOfWeek, function(day) {
-        $scope.diningWeek[day] = week[day];
-      });
+      setDiningWeek(week);
 
       _.forEach($scope.diningWeek, function(dayInfo, dayofweek) {
         $scope.hasLatePlate[dayofweek] =
@@ -70,10 +95,11 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
 
     // set the active tab to the current day
     var day = new Date();
-    $scope.currentDayOfWeek = dateFilter(day, 'EEEE');
+    $scope.currentDayOfWeek = $scope.daysOfWeek.indexOf(dateFilter(day, 'EEEE'));
+
     // if current day is not a school night, display Sunday's menu
-    if ( !_.includes($scope.daysOfWeek, $scope.currentDayOfWeek) ) {
-      $scope.currentDayOfWeek = "Sunday";
+    if ( $scope.currentDayOfWeek === -1 ) {
+      $scope.currentDayOfWeek = 0;
     }
 
     $scope.toggleEditMode = function() {
@@ -83,10 +109,16 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
     $scope.submitDiningMenu = function() {
       Dining.update({diningID: diningID}, {updatedWeek: $scope.diningWeek},
         function(week) {
-          console.log(week);
-          $scope.diningWeek = week;
+          setDiningWeek(week);
           $scope.toggleEditMode();
         });
+    }
+
+    function setDiningWeek(week) {
+      $scope.diningWeek = {};
+      _.forEach($scope.daysOfWeek, function(day) {
+        $scope.diningWeek[day] = week[day];
+      });
     }
 
     $scope.clearLatePlates = function() {

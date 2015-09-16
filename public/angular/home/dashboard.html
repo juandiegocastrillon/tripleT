@@ -1,128 +1,147 @@
-<!-- Uses a header that scrolls with the text, rather than staying
-  locked at the top -->
 <ttlayout>
-  <div class="page-content">
-    <div class="mdl-grid content" id="dashboard-cards">
+    <div id="dashboard-cards">
       <!-- DINING -->
-      <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
-        <div class="mdl-card__title dining-title">
-          <h1 class="mdl-card__title-text" id="homeDining">Dining</h1>
-          <button ng-hide="diningEditMode" ng-if="isAuthorized(userRoles.admin)" ng-click="toggleEditMode()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
-            <i class="material-icons">mode_edit</i>
-          </button>
-          <button ng-show="diningEditMode" ng-click="submitDiningMenu()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
-            <i class="material-icons">done</i>
-          </button>
-        </div>
-        <div>
-          <div ng-hide="diningEditMode" class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-            <div class="mdl-tabs__tab-bar">
-              <a ng-repeat="(index, dayofweek) in daysOfWeek" href="#dining-{{dayofweek}}" class="mdl-tabs__tab" ng-class="{ 'is-active': dayofweek === currentDayOfWeek }">{{abbrevDOW[index]}}</a>
-            </div>
-            <div ng-repeat="(dayofweek, dayInfo) in diningWeek" class="mdl-tabs__panel" ng-class="{ 'is-active': dayofweek === currentDayOfWeek }" id="dining-{{dayofweek}}">
-              <div class="dining-dayinfo">
-                <span class="dining-subtitle">HEAD CHEF: </span>
-                {{dayInfo.Acomm}}
-              </div>
-              <div class="dining-linebreak"></div>
-              <div class="dining-dayinfo">
-                <div class="dining-subtitle">MENU:</div>
-                <p>{{dayInfo.menu}}</p>
-              </div>
-              <div class="dining-linebreak"></div>
-              <div class="dining-dayinfo">
-                <div class="dining-subtitle">LATE PLATES:</div>
-                <p ng-show="dayInfo.latePlates.length === 0" class="dining-no-lateplate">none</p>
-                <div ng-repeat="name in dayInfo.latePlates">{{name}}</div>
+      <md-card class="md-whiteframe-z3">
+        <md-card-content>
+          <md-button ng-hide="diningEditMode"
+                    ng-if="isAuthorized(userRoles.admin)"
+                    ng-click="toggleEditMode()"
+                    class="md-icon-button dining-edit-btn"
+                    aria-label="edit dining" >
+            <md-icon md-svg-icon="images/icons/edit.svg"></md-icon>
+          </md-button>
+          <md-button ng-show="diningEditMode" 
+                    ng-click="submitDiningMenu()"
+                    class="md-icon-button dining-edit-btn"
+                    aria-label="done editing dining">
+            <md-icon md-svg-icon="images/icons/done.svg"></md-icon>
+          </md-button>
+          <h1 class="md-title">Dining</h1>
 
-                <!-- Add Late Plate -->
-                <button ng-hide="hasLatePlate[dayofweek]" ng-click="addLatePlate(dayofweek)" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored late-plate-btn">
-                  <i class="material-icons">add</i>
-                </button>
+          <!-- Dining Tabs -->
+          <md-tabs ng-hide="diningEditMode" md-dynamic-height md-center-tabs>
+            <md-tab ng-repeat="(dayofweek, dayInfo) in diningWeek">
+              <md-tab-label>
+                {{ abbrevDOW[daysOfWeek.indexOf(dayofweek)] }}
+              </md-tab-label>
+              <md-tab-body>
+                <div class="dining-dayinfo">
+                  <span class="dining-subtitle">HEAD CHEF: </span>
+                  {{dayInfo.Acomm}}
+                </div>
+                <div class="dining-linebreak"></div>
+                <div class="dining-dayinfo">
+                  <div class="dining-subtitle">MENU:</div>
+                  <p>{{dayInfo.menu}}</p>
+                </div>
+                <div class="dining-linebreak"></div>
+                <div class="dining-dayinfo">
+                  <div class="dining-subtitle">LATE PLATES:</div>
+                  <p ng-show="dayInfo.latePlates.length === 0" class="dining-no-lateplate">none</p>
+                  <div ng-repeat="name in dayInfo.latePlates">{{name}}</div>
 
+                  <!-- Add Late Plate -->
+                  <md-button ng-hide="hasLatePlate[dayofweek]"
+                            ng-click="addLatePlate(dayofweek)"
+                            class="late-plate-btn md-fab md-mini"
+                            aria-label="add late plate">
+                    <md-icon md-svg-icon="images/icons/add.svg"></md-icon>
+                  </md-button>
 
-                <!-- Remove Late Plate -->
-                <button ng-show="hasLatePlate[dayofweek]" ng-click="removeLatePlate(dayofweek)" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored late-plate-btn">
-                  <i class="material-icons">remove</i>
-                </button>
-              </div>
-            </div>
-          </div>
+                  <!-- Remove Late Plate -->
+                  <md-button ng-show="hasLatePlate[dayofweek]" 
+                            ng-click="removeLatePlate(dayofweek)"
+                            class="late-plate-btn md-fab md-mini"
+                            aria-label="remove late plate">
+                    <md-icon md-svg-icon="images/icons/remove.svg"></md-icon>
+                  </md-button>
+                </div>
+              </md-tab-body>
+            </md-tab>       
+          </md-tabs>
 
-          <!-- Edit Dining Mode -->
-          <div ng-show="diningEditMode" class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-            <div class="mdl-tabs__tab-bar">
-              <a href="#dining-edit-Sunday" class="mdl-tabs__tab is-active">Sun</a>
-              <a href="#dining-edit-Monday" class="mdl-tabs__tab">Mon</a>
-              <a href="#dining-edit-Tuesday" class="mdl-tabs__tab">Tues</a>
-              <a href="#dining-edit-Wednesday" class="mdl-tabs__tab">Wed</a>
-              <a href="#dining-edit-Thursday" class="mdl-tabs__tab">Thurs</a>
-            </div>
-            <div ng-repeat="(dayofweek, dayInfo) in diningWeek" class="mdl-tabs__panel" ng-class="{ 'is-active': dayofweek === 'Sunday' }" id="dining-edit-{{dayofweek}}">
-              <div class="dining-dayinfo mdl-textfield mdl-js-textfield">
-                <span class="dining-subtitle">HEAD CHEF: </span>
-                <input class="mdl-textfield__input" type="text" ng-model="dayInfo.Acomm" />
-                <label class="mdl-textfield__label">Enter Head Chef...</label>
-              </div>
-              <div class="dining-dayinfo mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                <div class="dining-subtitle">MENU:</div>
-                <textarea class="mdl-textfield__input" rows="4" type="text" ng-model="dayInfo.menu"></textarea>
-                <label class="mdl-textfield__label">Enter menu...</label>
-              </div>
-              
-              <div class="dining-dayinfo">
-                <div class="dining-subtitle">LATE PLATES:</div>
-                <p ng-show="dayInfo.latePlates.length === 0" class="dining-no-lateplate">none</p>
-                <div ng-repeat="name in dayInfo.latePlates">{{name}}</div>
-              </div>
-            </div>
-          </div>
+          <md-tabs ng-show="diningEditMode" md-dynamic-height md-center-tabs>
+            <md-tab ng-repeat="(dayofweek, dayInfo) in diningWeek">
+              <md-tab-label>
+                {{ abbrevDOW[daysOfWeek.indexOf(dayofweek)] }}
+              </md-tab-label>
+              <!-- Edit Dining Mode -->
+              <md-tab-body>
+                <md-input-container class="dining-dayinfo">
+                  <span class="dining-subtitle">HEAD CHEF: </span>
+                  <input type="text" ng-model="dayInfo.Acomm" aria-label="enter acomm"/>
+                </md-input-container>
+                <md-input-container class="dining-dayinfo">
+                  <div class="dining-subtitle">MENU:</div>
+                  <textarea rows="4" type="text" ng-model="dayInfo.menu" aria-label="input menu"></textarea>
+                </md-input-container>
+                
+                <div class="dining-dayinfo">
+                  <div class="dining-subtitle">LATE PLATES:</div>
+                  <p ng-show="dayInfo.latePlates.length === 0" class="dining-no-lateplate">none</p>
+                  <div ng-repeat="name in dayInfo.latePlates">{{name}}</div>
+                </div>
+              </md-tab-body>
+            </md-tab>
+          </md-tabs>
 
           <!-- Clear Late Plates -->
-          <div ng-show="diningEditMode" class="mdl-card__actions mdl-card--border" ng-click="clearLatePlates()">
-            <button class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'>
+          <div ng-show="diningEditMode"
+              ng-click="clearLatePlates()"
+              layout="row"
+              layout-align="left center"
+              class="md-actions">
+            <md-button class="md-raised md-primary" aria-label="remove all late plates">
               Clear all Late Plates
-            </button>
+            </md-button>
           </div>
-        </div>
-      </div>
+        </md-card-content>
+      </md-card>
 
     <!-- ELECTIONS -->
-      <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="elections">
-        <div class="mdl-card__title">
-          <h1 class="mdl-card__title-text" id="homeElections">Elections</h1>
-        </div>
-        <div>
-          <div ng-repeat="election in elections" class="home-election mdl-card__supporting-text" ng-click="redirect('election/' + election._id)" >
-            <div class="home-election-name mdl-js-ripple-effect">{{election.name}}</div>
-              <button ng-hide="election.show" ng-if="election.creator === currentUser.kerberos" ng-click='getWinner(election); $event.stopPropagation()' class="show-results-icon mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+      <md-card class="md-whiteframe-z3">
+        <md-card-content>
+          <h1 class="md-title">Elections</h1>
+          <md-list>
+            <md-list-item ng-repeat="election in elections"
+                        ng-click="voteInElection($event)">
+              <div class="md-body-2">{{election.name}}</div>
+              <md-button ng-hide="election.show"
+                        ng-if="election.creator === currentUser.kerberos"
+                        ng-click='getWinner(election); $event.stopPropagation()'
+                        aria-label="show election winner">
                 See Winner
-              </button>
-              <p ng-show="election.show" class="animated zoomIn home-election-winner-text">{{election.winner}}</p>
+              </md-button>
+              <p ng-show="election.show" class="animated zoomIn">
+                {{election.winner}}
+              </p>
+            </md-list-item>
+          </md-list>
+          <div class="md-actions" layout="row" layout-align="left center">
+            <md-button class="md-raised md-primary" ng-click="redirect('newElection')" aria-label="create election">
+              Create
+            </md-button>
           </div>
-          <div class="mdl-card__actions mdl-card--border">
-            <button ng-click="redirect('newElection')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Create</button>
-          </div>
-        </div>
-      </div>
+        </md-card-content>
+      </md-card>
 
       
-      <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
-        <div class="mdl-card__title">
-          <h1 class="mdl-card__title-text" id="homeDining">VP corner</h1>
+      <div id="dining">
+        <div>
+          <h1 id="homeDining">VP corner</h1>
         </div>
       </div>
-      <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
-        <div class="mdl-card__title">
-          <h1 class="mdl-card__title-text" id="homeDining">Bibles</h1>
+      <div id="dining">
+        <div>
+          <h1 id="homeDining">Bibles</h1>
         </div>
         <div>
           <iframe id="bibles" src="https://drive.google.com/embeddedfolderview?id=0B7doyB_hQs06aktkSl9QZjlRbUk#list"></iframe>
         </div>
       </div>
-      <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
-        <div class="mdl-card__title">
-          <h1 class="mdl-card__title-text" id="homeDining">PM Requests</h1>
+      <div id="dining">
+        <div>
+          <h1 id="homeDining">PM Requests</h1>
         </div>
       </div>
     </div>

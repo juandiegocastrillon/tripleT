@@ -1,22 +1,18 @@
-.header-title {
-   text-decoration: inherit;
-   color: inherit;
+.sign-in-card {
+   min-width: 355px;
 }
 
-.mdl-layout__content {
-   background-color: whitesmoke;
-}
-
-.mdl-cell {
-   background-color: white;
-}
-
-#signin-textbox {
+md-card {
    padding: 10px;
+}
+
+.toolbar-link {
+   margin: 0px 10px;
 }
 
 #dashboard-cards {
    max-width: 1080px;
+   min-width: 560px;
 }
 
 #election-voting-cell {
