@@ -6,12 +6,23 @@
       </span>
       <span flex></span>
       <span ng-if='currentUser' class="toolbar-link md-body-2">Hello, {{currentUser.displayName}}</span>
-      <nav ng-if='isAuthorized(userRoles.admin)'>
-        <a href="/#/userManagement" class="toolbar-link md-body-2">Manage Users</a>
-      </nav>
-      <nav ng-if='currentUser'>
-        <a href="/auth/signout" class="toolbar-link md-body-2">Sign Out</a>
-      </nav>
+      <md-menu ng-if="currentUser">
+        <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="open user options">
+          <md-icon md-svg-icon="images/icons/menu.svg"></md-icon>
+        </md-button>
+        <md-menu-content width="4">
+          <md-menu-item>
+            <md-button ng-if='isAuthorized(userRoles.admin)' ng-click="redirect('/userManagement')">
+              Manage Users
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="signout()">
+              Sign Out
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </div>
   </md-toolbar>
   <main layout="column" layout-align="space-around center">

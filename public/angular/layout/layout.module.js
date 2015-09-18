@@ -9,9 +9,21 @@ angular.module('tripleT.layout', [])
   }
 })
 .controller('LayoutCtrl',
-  function($scope, $location, $anchorScroll) {
+  function($scope, $location, $http, $window, $anchorScroll) {
     $scope.jumpTo = function(idTag) {
       $location.hash(idTag);
       $anchorScroll();
+    }
+
+    $scope.redirect = function(url) {
+      $location.path(url);
+    }
+
+    $scope.signout = function() {
+      $http.get('/auth/signout')
+        .then(function() {
+          $location.path('/signin');
+          $window.location.reload();
+        });
     }
   });

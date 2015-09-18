@@ -2,8 +2,8 @@
    min-width: 355px;
 }
 
-md-card {
-   padding: 10px;
+.user-management-card {
+   min-width: 450px;
 }
 
 .toolbar-link {
@@ -13,10 +13,6 @@ md-card {
 #dashboard-cards {
    max-width: 1080px;
    min-width: 560px;
-}
-
-#election-voting-cell {
-   max-width: 500px;
 }
 
 .text-center {
@@ -40,16 +36,13 @@ md-card {
 
 .election-candidate-container {
    margin: 20px 15px;
+   width: 330px;
 }
 
 .election-submit-text {
    font-size: 14px;
    padding: 0px 13px;
    color: rgb(147, 147, 147);
-}
-
-.new-election-textbox {
-   width: 100%;
 }
 
 .home-election-name {
@@ -123,4 +116,5 @@ md-card {
 
 #bibles {
    height: 300px;
+   width: 100%;
 }

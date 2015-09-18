@@ -6,7 +6,6 @@ angular.module('tripleT', [
   'ngRoute',
   'ngMaterial',
   'tripleT.dashboard',
-  'tripleT.election',
   'tripleT.userManagement',
   'tripleT.layout'
 ])

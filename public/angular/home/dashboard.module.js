@@ -1,4 +1,4 @@
-angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
+angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
 .config(function($routeProvider) {
   $routeProvider.when('/', {
     templateUrl: '/angular/home/dashboard.html',
@@ -7,13 +7,12 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
 })
 
 .controller('HomeCtrl',
-  function($scope, $location, $http, $timeout, $mdDialog, Elections, Dining, dateFilter) {
+  function($scope, $location, $http, $timeout, $mdDialog, Elections, Election, Dining, dateFilter) {
     /*******************************
      ************ ELECTIONS ********
      *******************************/
     Elections.query({}, function(elections) {
       $scope.elections = _.takeRight(elections,10);
-      console.log($scope.elections);
     }, function(err) {
       console.log(err);
     });
@@ -23,42 +22,73 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
       $location.path(route);
     }
 
-    $scope.getWinner = function(election) {
+    $scope.getWinner = function(ev, election) {
       $http.get('/voting/' + election._id + '/results')
       .success(function(winner) {
-        election.winner = winner;
-        election.show = true;
+        election.winner = winner ? winner : 'No current votes';
+        showWinner(ev, election.winner);
       })
       .error(function(err) {
         console.log(err);
       })
     }
 
-    $scope.voteInElection = function(ev) {
+    function showWinner(ev, winner) {
       $mdDialog.show({
-        controller: voteElectionCtrl,
+        template:
+          '<md-dialog>' +
+          ' <md-dialog-content>' +
+              winner +
+          ' </md-dialog- content>' +
+          '</md-dialog>',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+      });
+    }
+
+    $scope.deleteElection = function(election) {
+      Election.delete({electionID: election._id},
+        function() {
+          _.pull($scope.elections, election);
+          console.log("Success");
+      })
+    }
+
+    $scope.voteInElection = function(ev, electionID) {
+      $mdDialog.show({
+        controller: 'electionCtrl',
         templateUrl: '/angular/election/election-view.html',
         parent: angular.element(document.body),
         targetEvent: ev,
-        clickOutsideToClose:true
+        clickOutsideToClose:true,
+        locals: {
+          kerberos: $scope.currentUser.kerberos
+        },
+        resolve: {
+          election: function($q, $route, Election) {
+            var defer = $q.defer();
+
+            Election.get({electionID: electionID}, function(election) {
+              defer.resolve(election);
+            }, function(err) {
+              defer.reject(err);
+            });
+
+            return defer.promise;
+          }
+        }
       })
-      .then(function(answer) {
-        // success
-      }, function() {
-        // failure
-      });
     };
 
-    function voteElectionCtrl($scope, $mdDialog) {
-      $scope.hide = function() {
-        $mdDialog.hide();
-      };
-      $scope.cancel = function() {
-        $mdDialog.cancel();
-      };
-      $scope.answer = function(answer) {
-        $mdDialog.hide(answer);
-      };
+    $scope.newElection = function(ev) {
+      $mdDialog.show({
+        controller: 'newElectionCtrl',
+        templateUrl: '/angular/election/new-election-view.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true
+      })
     }
 
     /*******************************

@@ -1,22 +1,20 @@
 <ttlayout>
-   <div>
-      <md-card class="md-whiteframe-z3 sign-in-card">
-         <form>
-            <md-card-content>
-               <h1 class='md-title'>Sign In</h1>
-               <md-input-container>
-                  <input type="text" ng-model="credentials.kerberos" />
-                  <label>Kerberos...</label>
-               </md-input-container>
-               <md-input-container>
-                  <input type="password" ng-model="credentials.password" />
-                  <label>Password...</label>
-               </md-input-container>
-            </md-card-content>
-            <div class="md-actions" layout="row" layout-align="end center">
-               <md-button type="submit" class="md-raised" ng-click="signin(credentials)">Sign in</md-button>
-            </div>
-         </form>
-      </md-card>
-   </div>
+   <md-card class="md-whiteframe-z3 sign-in-card">
+      <form>
+         <md-card-content>
+            <h1 class='md-title'>Sign In</h1>
+            <md-input-container>
+               <input type="text" ng-model="credentials.kerberos" />
+               <label>Kerberos...</label>
+            </md-input-container>
+            <md-input-container>
+               <input type="password" ng-model="credentials.password" />
+               <label>Password...</label>
+            </md-input-container>
+         </md-card-content>
+         <div class="md-actions" layout="row" layout-align="end center">
+            <md-button type="submit" class="md-raised" ng-click="signin(credentials)">Sign in</md-button>
+         </div>
+      </form>
+   </md-card>
 </ttlayout>

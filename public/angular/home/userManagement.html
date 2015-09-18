@@ -1,29 +1,29 @@
 <ttlayout>
-   <div class='page-content'>
-   	  <h2 class='text-center'>User Management</h2>	
-      <div class="mdl-grid content">
-         <div class="mdl-cell--3-col"></div>
-         <div class="mdl-cell--6-col">
-            <div>
-            	<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable">
-						<thead>
-					   	<tr>
-					      	<th class="mdl-data-table__cell--non-numeric">Name</th>
-					      	<th>Kerberos</th>
-					      	<th>User Privileges</th>
-					    	</tr>
-					  	</thead>
-					  	<tbody>
-					   	<tr ng-repeat="user in users">
-					      	<td class="mdl-data-table__cell--non-numeric">{{ user.name }}</td>
-					      	<td class="mdl-data-table__cell--non-numeric">{{ user.kerberos }}</td>
-					      	<td class="mdl-data-table__cell--non-numeric">{{ user.role }}</td>
-					    	</tr>
-					  </tbody>
-					</table>
-            </div>
-         </div>
-         <div class="mdl-cell--3-col"></div>
-      </div>
-   </div>
+   	<md-card class="md-whiteframe-z3 user-management-card">
+   		<md-card-content>
+   	  		<h1 class='md-title'>User Management</h1>
+            <md-list>
+				<md-list-item class="md-3-line" ng-repeat="user in users">
+					<div class="md-list-item-text">
+						<div layout="row">
+							<div layout="column">
+								<h4>{{ user.name }}</h4>
+								<p>{{ user.kerberos }}</p>
+							</div>
+							<span flex></span>
+							<md-input-container>
+								<label>Privileges</label>
+								<md-select ng-model="user.role">
+									<md-option>Admin</md-option>
+									<md-option>Comm</md-option>
+									<md-option>No privileges</md-option>
+								</md-select>
+							</md-input-container>
+						</div>
+					</div>
+			    </md-list-item>
+            </md-list>
+        </md-card-content>
+      </md-card>
+   </ttlayout>
 </ttlayout>
