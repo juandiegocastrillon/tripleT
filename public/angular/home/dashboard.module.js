@@ -120,6 +120,13 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
     }
 
     // PM REQUESTS
+    //set variables
+    $scope.pmEditMode = true;
+
+    $scope.togglePmEditMode = function() {
+      $scope.pmEditMode = !$scope.pmEditMode;
+    }
+
     var pmReqID;
     $http.get('/pm').success(function(pmReqID) {
         pmReqID = pmReqID._id;

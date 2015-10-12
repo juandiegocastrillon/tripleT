@@ -28,12 +28,12 @@ function getMostRecentPmRequestContainer(req, res) {
       res.status(400).send(NO_PM_REQUEST_CONTAINER_MSG);
       return;
     }
-    mostRecent = pmRequestContainers[0];
+    var mostRecent = pmRequestContainers[0];
     _.forEach(pmRequestContainers, function(pmRequestContainer) {
       if (pmRequestContainer.date > mostRecent.date)
         mostRecent = pmRequestContainer;
     });
-    return res.status(400).json(pmRequestContainer);
+    return res.status(200).json(mostRecent);
   });
 }
 
@@ -66,5 +66,5 @@ function addRequest(req, res){
   });
 }
 
-module.exports.getPmRequests = getPmRequests;
-module.exports.addRequest    = addRequest;
+module.exports.addRequest                      = addRequest;
+module.exports.getMostRecentPmRequestContainer = getMostRecentPmRequestContainer;

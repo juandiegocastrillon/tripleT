@@ -82,15 +82,6 @@
    float: right;
 }
 
-.dining-title {
-   position: relative;
-}
-
-.dining-edit-btn {
-   position: absolute;
-   right: 20px;
-}
-
 .dining-subtitle {
    font-weight: 800;
 }
@@ -143,6 +134,9 @@
   width: 100;
 }
 
+.pm-request-delete {
+  float: none;
+}
 td.pm-request-table {
   text-align: left;
   word-wrap: break-word;
@@ -157,4 +151,13 @@ td.pm-request-table {
   color: gray;
   font-style: italic;
   margin-left: 15px;
+}
+
+.editable-section {
+   position: relative;
+}
+
+.section-edit-btn {
+   position: absolute;
+   right: 20px;
 }

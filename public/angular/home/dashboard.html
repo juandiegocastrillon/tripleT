@@ -5,12 +5,12 @@
     <div class="mdl-grid content" id="dashboard-cards">
       <!-- DINING -->
       <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp" id="dining">
-        <div class="mdl-card__title dining-title">
+        <div class="mdl-card__title editable-section">
           <h1 class="mdl-card__title-text" id="homeDining">Dining</h1>
-          <button ng-hide="diningEditMode" ng-if="isAuthorized(userRoles.admin)" ng-click="toggleDiningEditMode()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
+          <button ng-hide="diningEditMode" ng-if="isAuthorized(userRoles.admin)" ng-click="toggleDiningEditMode()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored section-edit-btn">
             <i class="material-icons">mode_edit</i>
           </button>
-          <button ng-show="diningEditMode" ng-click="submitDiningMenu()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored dining-edit-btn">
+          <button ng-show="diningEditMode" ng-click="submitDiningMenu()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored section-edit-btn">
             <i class="material-icons">done</i>
           </button>
         </div>
@@ -125,25 +125,31 @@
 
       <!-- PM Requests -->
       <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp">
-        <div class="mdl-card__title">
+        <div class="mdl-card__title editable-section">
           <h1 class="mdl-card__title-text">PM Requests</h1>
+          <button ng-show="pmEditMode" ng-click="togglePmEditMode()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored section-edit-btn">
+            <i class="material-icons">mode_edit</i>
+          <button ng-hide="pmEditMode" ng-click="togglePmEditMode()" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored section-edit-btn">
+            <i class="material-icons">done</i>
+          </button>
+          </button>
         </div>
 
         <!-- Display current requests -->
         <div ng-if="hasPmRequests">
-        <table class="mdl-data-table mdl-js-data-table" id="pmRequestTable">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable" id="pmRequestTable">
           <thead>
             <tr>
               <th class="mdl-data-table__cell--non-numeric ">Item</th>
-              <th class="mdl-data-table__cell--non-numeric pm-request-table__reason">Reason</th>
+              <th class="mdl-data-table__cell--non-numeric pm-request-table__reason">Reason</th> <!-- set this as centered because reasons are often longer -->
               <th class="mdl-data-table__cell--non-numeric ">Brother</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="request in pmRequests">
-              <td class="pm-request-table">{{request.item}}</td>
-              <td class="pm-request-table">{{request.reason}}</td>
-              <td class="pm-request-table">{{request.author}}</td>
+              <td class="mdl-data-table__cell--non-numeric pm-request-table">{{request.item}}</td>
+              <td class="mdl-data-table__cell--non-numeric pm-request-table">{{request.reason}}</td>
+              <td class="mdl-data-table__cell--non-numeric pm-request-table">{{request.author}}</td>
             </tr>
           </tbody>
         </table>
