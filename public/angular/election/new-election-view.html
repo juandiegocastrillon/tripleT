@@ -1,29 +1,27 @@
-<ttlayout>
-   <div class="page-content" data-ng-controller="newElectionCtrl">
-      <h2 class="text-center">Create Election</h2>
-      <div class="mdl-grid content" id="election-voting-cell">
-         <div class="mdl-cell mdl-cell--12-col mdl-shadow--4dp">
+<md-dialog>
+  <md-toolbar>
+    <h2 class="md-toolbar-tools">Create Election</h2>
+  </md-toolbar>
+  <md-dialog-content>
+         <div>
             <div class="election-candidate-container">
                <form action="#">
-              <div class="new-election-textbox mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" ng-model="election.name" />
-                <label class="mdl-textfield__label">Election title...</label>
-              </div>
-                <div id="new-election-candidates" class="new-election-textbox mdl-textfield mdl-js-textfield">
-                <textarea class="mdl-textfield__input" type="text" rows= "3" ng-model="election.candidates" ></textarea>
-                <label class="mdl-textfield__label">Candidates...</label>
-              </div>
-              <span class="mdl-tooltip" for="new-election-candidates">One line per candidate</span>
+              <md-input-container class="new-election-textbox">
+                <input type="text" ng-model="election.name" />
+                <label>Election title...</label>
+              </md-input-container>
+              <md-input-container>
+                <textarea type="text" rows= "3" ng-model="election.candidates" ></textarea>
+                <label>Candidates...</label>
+                <md-tooltip>One line per candidate</md-tooltip>
+              </md-input-container>
             </form>
-
             </div>
-            <div class="mdl-card__actions mdl-card--border">
-               <button ng-click="createElection()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-               Create
-               </button>
+            <div class="md-actions">
+               <md-button ng-click="createElection()">
+                Create
+               </md-button>
             </div>
          </div>
-         
-      </div>
-   </div>
-</ttlayout>
+  </md-dialog-content>
+</md-dialog>

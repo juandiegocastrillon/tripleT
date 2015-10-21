@@ -1,26 +1,18 @@
-.header-title {
-   text-decoration: inherit;
-   color: inherit;
+.sign-in-card {
+   min-width: 355px;
 }
 
-.mdl-layout__content {
-   background-color: whitesmoke;
+.user-management-card {
+   min-width: 450px;
 }
 
-.mdl-cell {
-   background-color: white;
-}
-
-#signin-textbox {
-   padding: 10px;
+.toolbar-link {
+   margin: 0px 10px;
 }
 
 #dashboard-cards {
    max-width: 1080px;
-}
-
-#election-voting-cell {
-   max-width: 500px;
+   min-width: 560px;
 }
 
 .text-center {
@@ -44,16 +36,13 @@
 
 .election-candidate-container {
    margin: 20px 15px;
+   width: 330px;
 }
 
 .election-submit-text {
    font-size: 14px;
    padding: 0px 13px;
    color: rgb(147, 147, 147);
-}
-
-.new-election-textbox {
-   width: 100%;
 }
 
 .home-election-name {
@@ -118,11 +107,7 @@
 
 #bibles {
    height: 300px;
-}
-
-#makeRequestBtn {
-  float: right;
-  margin: 10px;
+   width: 100%;
 }
 
 #pmRequestTable {
@@ -136,6 +121,20 @@
 
 .pm-request-delete {
   float: none;
+}
+
+.pm-item-author {
+  float: left;
+  display: inline-block;
+  color: rgba(0,0,0,0.54);
+}
+
+.pm-item {
+  padding-left: 20%;
+}
+
+p.pm-item{
+  padding-left: 21%;
 }
 td.pm-request-table {
   text-align: left;

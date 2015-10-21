@@ -41,7 +41,6 @@ function createNewRequestContainer() {
   PmRequestContainer.find().remove().exec();
   var newContainer = new PmRequestContainer({date: new Date(), requests: []});
   newContainer.save();
-  console.log("successfully saved new container");
 }
 
 function addRequest(req, res){
@@ -58,7 +57,6 @@ function addRequest(req, res){
 
       if (!_.findWhere(pmRequests.requests, {author: author, item: item})) {
         var newReq = new PmRequest({author: author, item: item, reason: reason, date: new Date()});
-        console.log(newReq);
         pmRequests.addRequest(newReq);
       }
       res.status(200).send();

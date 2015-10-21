@@ -1,29 +1,20 @@
 <ttlayout>
-   <div class='page-content'>
-      <div class="mdl-grid content">
-         <div class="mdl-cell--4-col"></div>
-         <form class="mdl-cell mdl-cell--4-col mdl-shadow--4dp">
-            <div class="mdl-card__title">
-               <h1 class="mdl-card__title-text">Sign In</h1>
-            </div>
-            <div id="signin-textbox">
-               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="text" ng-model="credentials.kerberos" />
-                  <label class="mdl-textfield__label">Kerberos...</label>
-               </div>
-               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input" type="password" ng-model="credentials.password" />
-                  <label class="mdl-textfield__label">Password...</label>
-               </div>
-               <div class="text-center form-group">
-                  
-               </div>
-            </div>
-            <div class="mdl-card__actions">
-               <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="signin(credentials)">Sign in</button>
-            </div>
-         </form>
-         <div class="mdl-cell--4-col"></div>
-      </div>
-   </div>
+   <md-card class="md-whiteframe-z3 sign-in-card">
+      <form>
+         <md-card-content>
+            <h1 class='md-title'>Sign In</h1>
+            <md-input-container>
+               <input type="text" ng-model="credentials.kerberos" />
+               <label>Kerberos...</label>
+            </md-input-container>
+            <md-input-container>
+               <input type="password" ng-model="credentials.password" />
+               <label>Password...</label>
+            </md-input-container>
+         </md-card-content>
+         <div class="md-actions" layout="row" layout-align="end center">
+            <md-button type="submit" class="md-raised" ng-click="signin(credentials)">Sign in</md-button>
+         </div>
+      </form>
+   </md-card>
 </ttlayout>

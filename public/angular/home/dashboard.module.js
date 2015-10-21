@@ -1,4 +1,4 @@
-angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
+angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
 .config(function($routeProvider) {
   $routeProvider.when('/', {
     templateUrl: '/angular/home/dashboard.html',
@@ -7,29 +7,87 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
 })
 
 .controller('HomeCtrl',
-  function($scope, $location, $http, $timeout, Elections, Dining, Pm, dateFilter) {
+  function($scope, $location, $http, $timeout, $mdDialog, Elections, Election, Dining, dateFilter, Pm) {
     /*******************************
      ************ ELECTIONS ********
      *******************************/
     Elections.query({}, function(elections) {
       $scope.elections = _.takeRight(elections,10);
-      console.log($scope.elections);
     }, function(err) {
       console.log(err);
     });
 
     $scope.redirect = function(route) {
+      console.log(route);
       $location.path(route);
     }
 
-    $scope.getWinner = function(election) {
+    $scope.getWinner = function(ev, election) {
       $http.get('/voting/' + election._id + '/results')
       .success(function(winner) {
-        election.winner = winner;
-        election.show = true;
+        election.winner = winner ? winner : 'No current votes';
+        showWinner(ev, election.winner);
       })
       .error(function(err) {
         console.log(err);
+      })
+    }
+
+    function showWinner(ev, winner) {
+      $mdDialog.show({
+        template:
+          '<md-dialog>' +
+          ' <md-dialog-content>' +
+              winner +
+          ' </md-dialog- content>' +
+          '</md-dialog>',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+      });
+    }
+
+    $scope.deleteElection = function(election) {
+      Election.delete({electionID: election._id},
+        function() {
+          _.pull($scope.elections, election);
+          console.log("Success");
+      })
+    }
+
+    $scope.voteInElection = function(ev, electionID) {
+      $mdDialog.show({
+        controller: 'electionCtrl',
+        templateUrl: '/angular/election/election-view.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        locals: {
+          kerberos: $scope.currentUser.kerberos
+        },
+        resolve: {
+          election: function($q, $route, Election) {
+            var defer = $q.defer();
+
+            Election.get({electionID: electionID}, function(election) {
+              defer.resolve(election);
+            }, function(err) {
+              defer.reject(err);
+            });
+
+            return defer.promise;
+          }
+        }
+      })
+    };
+
+    $scope.newElection = function(ev) {
+      $mdDialog.show({
+        controller: 'newElectionCtrl',
+        templateUrl: '/angular/election/new-election-view.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true
       })
     }
 
@@ -55,10 +113,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
     // set dining week
     $scope.hasLatePlate = {};
     Dining.get({diningID: diningID}, function(week) {
-      $scope.diningWeek = {};
-      _.forEach($scope.daysOfWeek, function(day) {
-        $scope.diningWeek[day] = week[day];
-      });
+      setDiningWeek(week);
 
       _.forEach($scope.diningWeek, function(dayInfo, dayofweek) {
         $scope.hasLatePlate[dayofweek] =
@@ -70,10 +125,11 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
 
     // set the active tab to the current day
     var day = new Date();
-    $scope.currentDayOfWeek = dateFilter(day, 'EEEE');
+    $scope.currentDayOfWeek = $scope.daysOfWeek.indexOf(dateFilter(day, 'EEEE'));
+
     // if current day is not a school night, display Sunday's menu
-    if ( !_.includes($scope.daysOfWeek, $scope.currentDayOfWeek) ) {
-      $scope.currentDayOfWeek = "Sunday";
+    if ( $scope.currentDayOfWeek === -1 ) {
+      $scope.currentDayOfWeek = 0;
     }
 
     $scope.toggleDiningEditMode = function() {
@@ -83,10 +139,16 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute'])
     $scope.submitDiningMenu = function() {
       Dining.update({diningID: diningID}, {updatedWeek: $scope.diningWeek},
         function(week) {
-          console.log(week);
-          $scope.diningWeek = week;
-          $scope.toggleDiningEditMode();
+          setDiningWeek(week);
+          $scope.toggleEditMode();
         });
+    }
+
+    function setDiningWeek(week) {
+      $scope.diningWeek = {};
+      _.forEach($scope.daysOfWeek, function(day) {
+        $scope.diningWeek[day] = week[day];
+      });
     }
 
     $scope.clearLatePlates = function() {

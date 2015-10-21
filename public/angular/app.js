@@ -4,8 +4,8 @@
 angular.module('tripleT', [
   'ngResource',
   'ngRoute',
+  'ngMaterial',
   'tripleT.dashboard',
-  'tripleT.election',
   'tripleT.userManagement',
   'tripleT.layout'
 ])
@@ -17,13 +17,6 @@ angular.module('tripleT', [
 })
 
 .run(function($rootScope, $timeout, $http, $location, AuthService) {
-  // load front end javascript on all loaded content
-  $rootScope.$on('$viewContentLoaded', function() {
-    $timeout(function() {
-      componentHandler.upgradeAllRegistered();
-    }, 500)
-  });
-
   // When a route changes, deny access to route if
   // user isn't authenticated.
   //

@@ -1,24 +1,36 @@
-<div class="mdl-layout mdl-js-layout mdl-layout--overlay-drawer-button">
-  <header class="mdl-layout__header mdl-layout__header--scroll">
-    <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">
-        <a class="header-title" href='/#/'>Phi Sig Triple-T</a>
+<div layout="column" layout-fill>
+  <md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+      <span>
+        <a href='/#/' class='md-headline'>Phi Sig Triple-T</a>
       </span>
-      <div class="mdl-layout-spacer"></div>
-      <span ng-if='currentUser'>Hello, {{currentUser.displayName}}</span>
-      <nav ng-if='isAuthorized(userRoles.admin)' class="mdl-navigation">
-        <a class="mdl-navigation__link" href="/#/userManagement">Manage Users</a>
-      </nav>
-      <nav ng-if='currentUser' class="mdl-navigation">
-        <a class="mdl-navigation__link" href="/auth/signout">Sign Out</a>
-      </nav>
+      <span flex></span>
+      <span ng-if='currentUser' class="toolbar-link md-body-2">Hello, {{currentUser.displayName}}</span>
+      <md-menu ng-if="currentUser">
+        <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="open user options">
+          <md-icon md-svg-icon="images/icons/menu.svg"></md-icon>
+        </md-button>
+        <md-menu-content width="4">
+          <md-menu-item>
+            <md-button ng-if='isAuthorized(userRoles.admin)' ng-click="redirect('/userManagement')">
+              Manage Users
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="signout()">
+              Sign Out
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </div>
-
-  </header>
-  <main class="mdl-layout__content" ng-transclude></main>
-  <footer class="mdl-mini-footer">
-    <div class="mdl-mini-footer__left-section">
-      <div class="mdl-logo">MIT | Phi Sigma Kappa</div>
+  </md-toolbar>
+  <main layout="column" layout-align="space-around center">
+    <md-content ng-transclude></md-content>
+  </main>
+<!--   <footer>
+    <div layout="row" layout-align="center center">
+      <h2>MIT | Phi Sigma Kappa</h2>
     </div>
-  </footer>
+  </footer> -->
 </div>
