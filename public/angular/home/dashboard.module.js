@@ -192,7 +192,6 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     var pmReqID;
     $http.get('/pm').success(function(pmReqID) {
         pmReqID = pmReqID._id;
-        console.log('got the id!!');
     });
 
     Pm.get({}, function(pmRequests) {

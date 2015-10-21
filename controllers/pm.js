@@ -7,8 +7,6 @@ var xss      = require('xss');
 var PmRequestContainer = mongoose.model('PmRequestContainer');
 var PmRequest = mongoose.model('PmRequest');
 
-var NO_PM_REQUEST_CONTAINER_MSG = "No PM Request container found.";
-
 /**
  * Like dining, should only have one requestContainer object stored.
  */
@@ -24,9 +22,8 @@ function getPmRequests(req, res) {
 
 function getMostRecentPmRequestContainer(req, res) {
   PmRequestContainer.find({}, function(err, pmRequestContainers) {
-    if (!pmRequestContainers){
-      res.status(400).send(NO_PM_REQUEST_CONTAINER_MSG);
-      return;
+    if (pmRequestContainers.length == 0){
+      pmRequestContainers.push(createNewRequestContainer());
     }
     var mostRecent = pmRequestContainers[0];
     _.forEach(pmRequestContainers, function(pmRequestContainer) {
@@ -41,6 +38,7 @@ function createNewRequestContainer() {
   PmRequestContainer.find().remove().exec();
   var newContainer = new PmRequestContainer({date: new Date(), requests: []});
   newContainer.save();
+  return newContainer
 }
 
 function addRequest(req, res){
