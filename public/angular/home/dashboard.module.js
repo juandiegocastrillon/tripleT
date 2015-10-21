@@ -195,10 +195,14 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
         console.log('got the id!!');
     });
 
-    Pm.get({}, function(pmRequests) {
-      $scope.pmRequests = pmRequests.requests;
-      $scope.hasPmRequests = ($scope.pmRequests.length != 0);
-    });
+    function getPmRequests() {
+      Pm.get({}, function(pmRequests) {
+        $scope.pmRequests = pmRequests.requests;
+        $scope.hasPmRequests = ($scope.pmRequests.length != 0);
+      });
+    }
+
+    getPmRequests();
 
     $scope.makeRequest = function(pmRequest) {
       var newReq = {
@@ -210,6 +214,30 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
         $scope.pmRequests.push(newReq);
         $scope.hasPmRequests = true;
       });
+    }
+
+    $scope.pmRequestsToDelete = [];
+    $scope.toggleDeletePmRequest = function(request, pmRequestsToDelete) {
+      var idx = pmRequestsToDelete.indexOf(request);
+      console.log(pmRequestsToDelete.length);
+      if (idx > -1) pmRequestsToDelete.splice(idx, 1);
+      else pmRequestsToDelete.push(request);
+    }
+
+    $scope.anyPmRequestSelected = function(pmRequestsToDelete) {
+      return pmRequestsToDelete.length != 0;
+    }
+
+    $scope.removeSelectedPmRequests = function(pmRequestsToDelete) {
+      for (var i = 0; i < pmRequestsToDelete.length; i++) {
+        var reqToDelete ={
+          author: pmRequestsToDelete[i].author,
+          item:   pmRequestsToDelete[i].item,
+        }
+        Pm.delete(reqToDelete, function(res){});
+      }
+      getPmRequests();
+      $scope.pmRequestsToDelete = [];
     }
 
    })

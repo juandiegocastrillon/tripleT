@@ -5,5 +5,6 @@ module.exports = function(app) {
 
   app.route('/pm')
     .get(pm.getMostRecentPmRequestContainer)
-    .post(pm.addRequest);
+    .post(pm.addRequest)
+    .delete(pm.removeRequest);
 }

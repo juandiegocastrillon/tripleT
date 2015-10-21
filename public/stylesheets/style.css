@@ -119,10 +119,6 @@
   width: 100;
 }
 
-.pm-request-delete {
-  float: none;
-}
-
 .pm-item-author {
   float: left;
   display: inline-block;
@@ -136,6 +132,7 @@
 p.pm-item{
   padding-left: 21%;
 }
+
 td.pm-request-table {
   text-align: left;
   word-wrap: break-word;
@@ -144,6 +141,14 @@ td.pm-request-table {
 
 .mdl-data-table__cell--non-numeric.pm-request-table__reason {
   text-align:center;
+}
+
+.pm-request-remove-btn {
+  float: right;
+}
+
+div.pm-request-remove-btn {
+  padding: 10%;
 }
 
 .no-pm-requests {

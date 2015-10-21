@@ -178,6 +178,7 @@
                   <h3 class="pm-item">{{ request.item }}</h3>
                   <p class="pm-item">{{ request.reason }}</p>
                 </div>
+                <md-checkbox ng-click="toggleDeletePmRequest(request, pmRequestsToDelete)"></md-checkbox>
               </md-list-item>
             </md-list>
           </div>
@@ -186,7 +187,11 @@
             <p class="no-pm-requests">No requests have been made</p>
           </div>
 
-
+          <div>
+            <md-button ng-disabled="!anyPmRequestSelected(pmRequestsToDelete)" 
+                       ng-click="removeSelectedPmRequests(pmRequestsToDelete)"
+                       class="md-primary pm-request-remove-btn">Remove</md-button>
+          </div>
           <!-- Form for adding new requests -->
           <form name="pmRequestForm">
             <div layout layout-sm="column">
