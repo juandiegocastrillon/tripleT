@@ -179,7 +179,7 @@
                   <p class="pm-item">{{ request.reason }}</p>
                 </div>
                 <md-checkbox ng-disabled="!isAuthorized(userRoles.pm) && currentUser.name != request.author" 
-                             ng-click="toggleDeletePmRequest(request, pmRequestsToDelete, isAuthorized(userRoles.pm) || currentUser.name == request.author)"></md-checkbox>
+                             ng-click="toggleDeletePmRequest(request, pmRequestsToDelete, isAuthorized(userRoles.pm) || currentUser.name === request.author)"></md-checkbox>
               </md-list-item>
             </md-list>
           </div>
