@@ -178,7 +178,8 @@
                   <h3 class="pm-item">{{ request.item }}</h3>
                   <p class="pm-item">{{ request.reason }}</p>
                 </div>
-                <md-checkbox ng-click="toggleDeletePmRequest(request, pmRequestsToDelete)"></md-checkbox>
+                <md-checkbox ng-disabled="!isAuthorized(userRoles.pm) && currentUser.name != request.author" 
+                             ng-click="toggleDeletePmRequest(request, pmRequestsToDelete, isAuthorized(userRoles.pm) || currentUser.name == request.author)"></md-checkbox>
               </md-list-item>
             </md-list>
           </div>
@@ -201,7 +202,7 @@
               </md-input-container>
               <md-input-container flex>
                 <label>Reason...</label>
-                <input ng-model="pmRequest.reason" />
+                <input ng-model="pmRequest.reason"/>
               </md-input-container>
               <md-input-container flex>
                 <md-button ng-click="makeRequest(pmRequest); pmRequest = ''" class="md-primary"

@@ -217,7 +217,8 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     }
 
     $scope.pmRequestsToDelete = [];
-    $scope.toggleDeletePmRequest = function(request, pmRequestsToDelete) {
+    $scope.toggleDeletePmRequest = function(request, pmRequestsToDelete, permitted) {
+      if (!permitted) return;
       var idx = pmRequestsToDelete.indexOf(request);
       console.log(pmRequestsToDelete.length);
       if (idx > -1) pmRequestsToDelete.splice(idx, 1);
