@@ -6,6 +6,16 @@
    min-width: 450px;
 }
 
+.new-user-container {
+  max-width: 95%;
+  width: 300px;
+}
+
+.new-user-error-msg {
+  font-size: 15px;
+  color: red;
+}
+
 .toolbar-link {
    margin: 0px 10px;
 }
@@ -95,6 +105,11 @@
 .dining-no-lateplate {
    color: gray;
    font-style: italic;
+}
+
+.dining-edit-btn {
+  position: absolute;
+  right: 15px;
 }
 
 .mdl-tabs__tab-bar > .mdl-tabs__tab {

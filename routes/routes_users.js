@@ -17,13 +17,14 @@ module.exports = function(app) {
       .get(users.one)
       .delete(users.requiresLogin, users.hasAuthorization, users.removeOne);
 
+   app.route('/users/:userId/changePermission')
+      .post(users.isAdmin, users.changePermission)
+
    app.route('/users')
       .get(users.requiresLogin, users.allUsers);
 
    // Setting up the users authentication api
-   app.route('/auth/signup').post(passport.authenticate('local-signup', {
-      // failureFlash: true
-   }), users.signup);
+   app.route('/auth/signup').post(users.signup);
    
    app.route('/auth/signin').post(passport.authenticate('local-login', {
       // failureFlash: true

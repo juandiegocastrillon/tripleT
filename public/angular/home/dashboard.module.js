@@ -140,7 +140,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
       Dining.update({diningID: diningID}, {updatedWeek: $scope.diningWeek},
         function(week) {
           setDiningWeek(week);
-          $scope.toggleEditMode();
+          $scope.toggleDiningEditMode();
         });
     }
 

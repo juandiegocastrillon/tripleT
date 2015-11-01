@@ -3,8 +3,9 @@
 /**
  * Module dependencies.
  */
-	var LocalStrategy = require('passport-local').Strategy,
-	User = require('mongoose').model('User');
+	var LocalStrategy = require('passport-local').Strategy;
+	var User = require('mongoose').model('User');
+	var _ = require('lodash');
 
 module.exports = function(passport) {
 	// Use local strategy
@@ -33,7 +34,7 @@ module.exports = function(passport) {
 	));
 
 	passport.use('local-signup', new LocalStrategy({
-		// by default, local strategy uses username and password, we will override with email
+		// by default, local strategy uses username and password, we will override with kerberos
 		usernameField : 'kerberos',
 		passwordField : 'password',
 		passReqToCallback : true // allows us to pass back the entire request to the callback
@@ -43,19 +44,19 @@ module.exports = function(passport) {
 		// User.findOne wont fire unless data is sent back
 		process.nextTick(function() {
 
-			// find a user whose email is the same as the forms email
-			// we are checking to see if the user trying to login already exists
+			// find a user whose kerberos is the same as the forms kerberos
+			// we are checking to see if the user trying to signup already exists
 			User.findOne({ 'kerberos' :  kerberos }, function(err, user) {
 				// if there are any errors, return the error
-				if (err)
+				if (err) {
 					return done(err);
+				}
 
-				// check to see if theres already a user with that email
+				// check to see if theres already a user with that kerberos
 				if (user) {
-					return done(null, false);
+					return done(null, false, { message: 'User with that kerberos already exists' });
 				} else {
-
-					// if there is no user with that email
+					// if there is no user with that kerberos
 					// create the user
 					var newUser = new User(req.body);
 
@@ -65,8 +66,14 @@ module.exports = function(passport) {
 
 					// save the user
 					newUser.save(function(err) {
-						if (err)
-							throw err;
+						if (err) {
+							// get all error messages
+							var messages = [];
+							_.forEach(err.errors, function(error) {
+								messages.push(error.message);
+							});
+							return done(null, false, {message: messages[0]})
+						}
 						return done(null, newUser);
 					});
 				}

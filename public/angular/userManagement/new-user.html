@@ -1,0 +1,36 @@
+<!-- div class="new-user-container" -->
+<md-dialog class="new-user-container">
+    <md-toolbar>
+        <h1 class='md-toolbar-tools'>Create new user</h1>
+    </md-toolbar>
+    <md-dialog-content>
+        <md-input-container>
+            <label>Name</label>
+            <input type='text' ng-model='newUser.name'>
+        </md-input-container>
+        <md-input-container>
+            <label>Kerberos</label>
+            <input type='text' ng-model='newUser.kerberos'>
+        </md-input-container>
+        <md-input-container>
+            <label>Temporary Password</label>
+            <input type='text' ng-model='newUser.password'>
+        </md-input-container>
+        <md-input-container>
+            <label>User Role</label>
+            <md-select ng-model='newUser.role'>
+                <md-option ng-repeat='role in allRoles'>{{ role }}</md-option>
+            </md-select>
+        </md-input-container>
+        <md-divider></md-divider>
+        <div class="md-actions" layout="row" layout-align="end center">
+            <div class='new-user-error-msg'>
+                {{ errorMsg }}
+            </div>
+            <md-button class="md-raised md-primary" ng-click="createNewUser(newUser)" aria-label="create new user">
+                Create
+            </md-button>
+        </div>
+    </md-dialog-content>
+</md-dialog>
+<!-- </div> -->

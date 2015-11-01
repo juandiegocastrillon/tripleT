@@ -46,11 +46,11 @@ var one = function(req, res) {
  * 				  failure -> null
  */
 var me = function(req, res) {
-   if (req.user) {
-      res.jsonp(req.user);
-   } else {
-      res.status(500).send("no user detected");
-   }
+    if (req.user) {
+        res.jsonp(req.user);
+    } else {
+        res.status(500).send("no user detected");
+    }
 };
 
 /**
@@ -78,12 +78,54 @@ var removeOne = function(req, res) {
  * @return {Object} if failure -> {message: error-msg}
  */
 var hasAuthorization = function(req, res, next) {
-  if (req.user.id != (req.profile._id)) {
-    return res.status(403).send({
-      message: 'Only the signed in User can make this change to this User'
-    });
-  }
-  next();
+    if (req.user.id != (req.profile._id)) {
+        return res.status(403).send({
+            message: 'Only the signed in User can make this change to this User'
+        });
+    }
+    next();
+}
+
+/**
+ * User making change must have admin privileges
+ */
+var isAdmin = function(req, res ,next) {
+    if (req.user.role == 'admin') {
+        next();
+    } else {
+        return res.status(403).send({
+            'message' : 'Only admin users can make this change'
+        })
+    }
+}
+
+/**
+ * Change user permission of selected user
+ * @param  {String} req.profile._id -> id of user to change permissions for
+ * @param  {Function} next -> call next function.
+ */
+var changePermission = function(req, res) {
+    // make sure at least one person is admin
+    if (req.body.newRole != 'admin') {
+        User.findOne({ role: 'admin'}).exec(function(err, user) {
+            if (!user) {
+                return res.status(403).send({
+                    'message' : 'At least one person must be admin'
+                })
+            }
+        });
+    }
+    
+    User.update(
+        {_id : req.profile._id}, 
+        { $set: {
+            role : req.body.newRole
+        }}
+    ).then(function(writeConcern) {
+        if (writeConcern.ok) {
+            res.jsonp({'message' : 'Success'});
+        }
+    })
 }
 
 module.exports.allUsers = allUsers;
@@ -91,3 +133,5 @@ module.exports.one = one;
 module.exports.me = me;
 module.exports.removeOne = removeOne;
 module.exports.hasAuthorization = hasAuthorization;
+module.exports.isAdmin = isAdmin;
+module.exports.changePermission = changePermission;

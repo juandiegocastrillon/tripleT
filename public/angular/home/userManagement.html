@@ -1,7 +1,16 @@
 <ttlayout>
    	<md-card class="md-whiteframe-z3 user-management-card">
    		<md-card-content>
-   	  		<h1 class='md-title'>User Management</h1>
+            <div layout='row' layout-align='start center'>
+       	  		<h1>User Management</h1>
+                <span flex></span>
+                <md-button
+                        ng-click="newUserModal($event)"
+                        class="md-fab md-mini md-primary"
+                        aria-label="new user modal" >
+                    <md-icon md-svg-icon="images/icons/add.svg"></md-icon>
+                </md-button>
+            </div>
             <md-list>
 				<md-list-item class="md-3-line" ng-repeat="user in users">
 					<div class="md-list-item-text">
@@ -13,10 +22,8 @@
 							<span flex></span>
 							<md-input-container>
 								<label>Privileges</label>
-								<md-select ng-model="user.role">
-									<md-option>Admin</md-option>
-									<md-option>Comm</md-option>
-									<md-option>No privileges</md-option>
+								<md-select ng-model="user.role" md-on-close='changePermission(user._id, user.role)'>
+									<md-option ng-repeat='role in allRoles'>{{ role }}</md-option>
 								</md-select>
 							</md-input-container>
 						</div>
@@ -24,6 +31,5 @@
 			    </md-list-item>
             </md-list>
         </md-card-content>
-      </md-card>
-   </ttlayout>
+    </md-card>
 </ttlayout>

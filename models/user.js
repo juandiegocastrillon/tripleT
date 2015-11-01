@@ -45,7 +45,7 @@ var UserSchema = new Schema({
 	},
 	role: {
 		type: String,
-		default: ''
+		default: 'bro'
 	},
 	password: {
 		type: String,
