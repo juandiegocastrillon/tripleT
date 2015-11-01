@@ -219,10 +219,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     $scope.pmRequestsToDelete = [];
     $scope.toggleDeletePmRequest = function(request, permitted) {
       if (!permitted) return;
-      var idx = $scope.pmRequestsToDelete.indexOf(request);
-      console.log($scope.pmRequestsToDelete.length);
-      if (idx > -1) $scope.pmRequestsToDelete.splice(idx, 1);
-      else $scope.pmRequestsToDelete.push(request);
+      _.pull($scope.pmRequestsToDelete, request);
     }
 
     $scope.toggleDeleteAllPmRequests = function() {
@@ -231,7 +228,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
       }
       else {
         _.forEach($scope.pmRequests, function(pmRequest) {
-          if ($scope.pmRequestsToDelete.indexOf(request) === -1) {
+          if ($scope.pmRequestsToDelete.indexOf(pmRequest) === -1) {
             $scope.pmRequestsToDelete.push(pmRequest);
           }
         });

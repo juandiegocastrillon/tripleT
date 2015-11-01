@@ -175,7 +175,7 @@
                 </div>
                 <md-checkbox ng-disabled="!isAuthorized(userRoles.pm) && currentUser.name != request.author" 
                              ng-click="toggleDeletePmRequest(request, isAuthorized(userRoles.pm) || currentUser.name === request.author)"
-                             ng-class="isToBeDeleted(request) ? 'md-checked' : '' ">
+                             ng-checked="isToBeDeleted(request)">
                              </md-checkbox>
               </md-list-item>
             </md-list>
