@@ -25,10 +25,15 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
 .controller('UserMgmtCtrl',
   function($scope, $http, $mdDialog) {
     $scope.allRoles = Object.keys($scope.userRoles);
-    $http.get('/users')
-      .then(function(res) {
-        $scope.users = _.sortBy(res.data, 'displayName');
-      })
+
+    $scope.getUsers = function() {
+      $http.get('/users')
+        .then(function(res) {
+          $scope.users = _.sortBy(res.data, 'displayName');
+        })      
+    }
+
+    $scope.getUsers();
 
     $scope.changePermission = function(userID, newRole) {
       if (newRole && userID) {
@@ -43,6 +48,18 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
         controller: 'NewUserCtrl',
         templateUrl: '/angular/userManagement/new-user.html',
         parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true,
+        scope: $scope
+      })
+    }
+
+    $scope.removeUserModal = function(ev, user) {
+      $mdDialog.show({
+        controller: 'RemoveUserCtrl',
+        templateUrl: '/angular/userManagement/remove-user.html',
+        parent: angular.element(document.body),
+        locals: {user: user},
         targetEvent: ev,
         clickOutsideToClose: true,
         scope: $scope
@@ -63,3 +80,18 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
       })
     }
 })
+
+.controller('RemoveUserCtrl',
+  function($scope, $http, $mdDialog, user) {
+    $scope.user = user;
+
+    $scope.removeUser = function(userID) {
+      $http.delete('/users/' + userID);
+      $mdDialog.hide();
+      $scope.getUsers();
+    }
+
+    $scope.cancel = function() {
+      $mdDialog.hide();
+    }
+  })

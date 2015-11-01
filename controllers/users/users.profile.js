@@ -78,7 +78,7 @@ var removeOne = function(req, res) {
  * @return {Object} if failure -> {message: error-msg}
  */
 var hasAuthorization = function(req, res, next) {
-    if (req.user.id != (req.profile._id)) {
+    if (req.user.id === (req.profile._id)) {
         return res.status(403).send({
             message: 'Only the signed in User can make this change to this User'
         });
