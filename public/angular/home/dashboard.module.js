@@ -217,23 +217,40 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     }
 
     $scope.pmRequestsToDelete = [];
-    $scope.toggleDeletePmRequest = function(request, pmRequestsToDelete, permitted) {
+    $scope.toggleDeletePmRequest = function(request, permitted) {
       if (!permitted) return;
-      var idx = pmRequestsToDelete.indexOf(request);
-      console.log(pmRequestsToDelete.length);
-      if (idx > -1) pmRequestsToDelete.splice(idx, 1);
-      else pmRequestsToDelete.push(request);
+      var idx = $scope.pmRequestsToDelete.indexOf(request);
+      console.log($scope.pmRequestsToDelete.length);
+      if (idx > -1) $scope.pmRequestsToDelete.splice(idx, 1);
+      else $scope.pmRequestsToDelete.push(request);
     }
 
-    $scope.anyPmRequestSelected = function(pmRequestsToDelete) {
-      return pmRequestsToDelete.length != 0;
+    $scope.toggleDeleteAllPmRequests = function() {
+      if ($scope.pmRequestsToDelete.length === $scope.pmRequests.length) {
+        $scope.pmRequestsToDelete = [];
+      }
+      else {
+        _.forEach($scope.pmRequests, function(pmRequest) {
+          if ($scope.pmRequestsToDelete.indexOf(request) === -1) {
+            $scope.pmRequestsToDelete.push(pmRequest);
+          }
+        });
+      }
     }
 
-    $scope.removeSelectedPmRequests = function(pmRequestsToDelete) {
-      for (var i = 0; i < pmRequestsToDelete.length; i++) {
+    $scope.anyPmRequestSelected = function() {
+      return $scope.pmRequestsToDelete.length != 0;
+    }
+
+    $scope.isToBeDeleted = function(request) {
+      return $scope.pmRequestsToDelete.indexOf(request) != -1;
+    }
+
+    $scope.removeSelectedPmRequests = function() {
+      for (var i = 0; i < $scope.pmRequestsToDelete.length; i++) {
         var reqToDelete ={
-          author: pmRequestsToDelete[i].author,
-          item:   pmRequestsToDelete[i].item,
+          author: $scope.pmRequestsToDelete[i].author,
+          item:   $scope.pmRequestsToDelete[i].item,
         }
         Pm.delete(reqToDelete, function(res){});
       }
