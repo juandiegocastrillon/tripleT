@@ -157,7 +157,7 @@
                      ng-if="!isAuthorized(userRoles.pm)"
                      ng-click="toggleDeleteAllPmRequests()" 
                      class="md-primary pm-request-remove-btn">
-              Remove All
+              Check All
           </md-button>
           <h1 class="md-title">PM Requests</h1>
 
@@ -195,14 +195,14 @@
             <div layout layout-sm="column">
               <md-input-container flex>
                 <label>Item...</label>
-                <input ng-model="pmRequest.item"/>
+                <input ng-required ng-model="pmRequest.item"/>
               </md-input-container>
               <md-input-container flex>
                 <label>Reason...</label>
-                <input ng-model="pmRequest.reason"/>
+                <input ng-required ng-model="pmRequest.reason"/>
               </md-input-container>
               <md-input-container flex>
-                <md-button ng-click="makeRequest(pmRequest); pmRequest = ''" class="md-primary"
+                <md-button ng-click="makeRequest(pmRequest); pmRequest = undefined" class="md-primary"
                 type="submit">Make Request</md-button>
               </md-input-container> 
             </div>

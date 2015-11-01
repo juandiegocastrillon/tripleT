@@ -205,6 +205,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     getPmRequests();
 
     $scope.makeRequest = function(pmRequest) {
+      if (!pmRequest) return;
       var newReq = {
         author: $scope.currentUser.name,
         item: pmRequest.item,
@@ -217,9 +218,12 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     }
 
     $scope.pmRequestsToDelete = [];
-    $scope.toggleDeletePmRequest = function(request, permitted) {
+    $scope.toggleDeletePmRequest = function(pmRequest, permitted) {
       if (!permitted) return;
-      _.pull($scope.pmRequestsToDelete, request);
+      if ($scope.pmRequestsToDelete.indexOf(pmRequest) > -1)
+        _.pull($scope.pmRequestsToDelete, pmRequest);
+      else
+        $scope.pmRequestsToDelete.push(pmRequest);
     }
 
     $scope.toggleDeleteAllPmRequests = function() {
@@ -244,17 +248,18 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     }
 
     $scope.removeSelectedPmRequests = function() {
-      for (var i = 0; i < $scope.pmRequestsToDelete.length; i++) {
-        var reqToDelete ={
-          author: $scope.pmRequestsToDelete[i].author,
-          item:   $scope.pmRequestsToDelete[i].item,
-        }
-        Pm.delete(reqToDelete, function(res){});
-      }
+      console.log($scope.pmRequestsToDelete.length);
+      reqsToDelete = [];
+      _.forEach($scope.pmRequestsToDelete, function(pmRequest) {
+        reqsToDelete.push({
+          author: pmRequest.author,
+          item:   pmRequest.item,
+        });
+      });
+      Pm.delete({'pmRequests': JSON.stringify(reqsToDelete)}, function(res){});
       getPmRequests();
       $scope.pmRequestsToDelete = [];
     }
-
    })
 
 .factory('Dining', function($resource) {

@@ -16,7 +16,19 @@ pmRequestContainerSchema.methods.addRequest = function(request) {
 }
 
 pmRequestContainerSchema.methods.removeRequest = function(request) {
-	this.requests = _.reject(this.requests, request);
+	_.remove(this.requests, request);
+	this.save();
+}
+
+pmRequestContainerSchema.methods.removeRequests = function(requests) {
+	currentRequests = this.requests;
+	_.forEach(requests, function(requestToDelete) {
+		currentRequests = _.remove(currentRequests, function(request) {
+			return request.author === requestToDelete.author && 
+				   request.item == requestToDelete.item;
+		});
+	});
+	this.requests = currentRequests;
 	this.save();
 }
 module.exports = mongoose.model('PmRequestContainer', pmRequestContainerSchema);
