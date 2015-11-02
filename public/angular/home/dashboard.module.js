@@ -248,7 +248,6 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     }
 
     $scope.removeSelectedPmRequests = function() {
-      console.log($scope.pmRequestsToDelete.length);
       reqsToDelete = [];
       _.forEach($scope.pmRequestsToDelete, function(pmRequest) {
         reqsToDelete.push({
