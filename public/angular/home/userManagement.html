@@ -26,6 +26,12 @@
 									<md-option ng-repeat='role in allRoles'>{{ role }}</md-option>
 								</md-select>
 							</md-input-container>
+					        <md-button
+		                        ng-click="removeUserModal($event, user)"
+		                        class="md-fab md-mini"
+		                        aria-label="remove user modal" >
+		                    	<md-icon md-svg-icon="images/icons/remove.svg"></md-icon>
+            				</md-button>
 						</div>
 					</div>
 			    </md-list-item>
