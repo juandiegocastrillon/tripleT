@@ -15,11 +15,6 @@ pmRequestContainerSchema.methods.addRequest = function(request) {
   this.save();
 }
 
-pmRequestContainerSchema.methods.removeRequest = function(request) {
-	_.remove(this.requests, request);
-	this.save();
-}
-
 pmRequestContainerSchema.methods.removeRequests = function(requests) {
 	currentRequests = this.requests;
 	_.forEach(requests, function(requestToDelete) {
