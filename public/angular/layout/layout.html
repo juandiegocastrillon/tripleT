@@ -11,9 +11,14 @@
           <md-icon md-svg-icon="images/icons/menu.svg"></md-icon>
         </md-button>
         <md-menu-content width="4">
-          <md-menu-item>
-            <md-button ng-if='isAuthorized(userRoles.admin)' ng-click="redirect('/userManagement')">
+          <md-menu-item ng-if='isAuthorized(userRoles.admin)'>
+            <md-button ng-click="redirect('/userManagement')">
               Manage Users
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="">
+              Change Password
             </md-button>
           </md-menu-item>
           <md-menu-item>

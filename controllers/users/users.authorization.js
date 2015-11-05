@@ -9,9 +9,8 @@ var _ = require('lodash'),
 	User = mongoose.model('User');
 
 /**
- * User middleware
+ * User middleware - assigns User object to req.profile if user id is valid
  * @param {String} id - user id of route
- * Assigns User object to req.profile if user id is valid
  */
 var userByID = function(req, res, next, id) {
 	User.findOne({

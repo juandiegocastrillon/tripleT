@@ -140,7 +140,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
       Dining.update({diningID: diningID}, {updatedWeek: $scope.diningWeek},
         function(week) {
           setDiningWeek(week);
-          $scope.toggleEditMode();
+          $scope.toggleDiningEditMode();
         });
     }
 
@@ -192,7 +192,6 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     var pmReqID;
     $http.get('/pm').success(function(pmReqID) {
         pmReqID = pmReqID._id;
-        console.log('got the id!!');
     });
 
     function getPmRequests() {

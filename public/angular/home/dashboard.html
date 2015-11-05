@@ -5,7 +5,7 @@
         <md-card-content>
           <md-button ng-hide="diningEditMode"
                     ng-if="isAuthorized(userRoles.admin)"
-                    ng-click="toggleEditMode()"
+                    ng-click="toggleDiningEditMode()"
                     class="md-icon-button dining-edit-btn"
                     aria-label="edit dining" >
             <md-icon md-svg-icon="images/icons/edit.svg"></md-icon>
@@ -135,8 +135,8 @@
             </md-list-item>
           </md-list>
           <md-divider></md-divider>
-          <div class="md-actions" layout="row" layout-align="left center">
-            <md-button class="" ng-click="newElection($event)" aria-label="create election">
+          <div class="md-actions" layout="row" layout-align="start center">
+            <md-button ng-click="newElection($event)" aria-label="create election">
               Create
             </md-button>
           </div>
@@ -191,8 +191,9 @@
                        class="md-primary pm-request-remove-btn">Remove</md-button>
           </div>
           <!-- Form for adding new requests -->
+          <md-divider></md-divider>
           <form name="pmRequestForm">
-            <div layout layout-sm="column">
+            <div layout="row" layout-align="space-between end">
               <md-input-container flex>
                 <label>Item...</label>
                 <input ng-required ng-model="pmRequest.item"/>

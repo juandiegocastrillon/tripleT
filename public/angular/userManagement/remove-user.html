@@ -1,0 +1,17 @@
+<md-dialog class="remove-user-container">
+	<md-toolbar>
+		<h1 class="md-toolbar-tools">Delete user</h1>
+	</md-toolbar>
+	<md-dialog-content>
+		<p>Are you sure you wish to remove {{ user.name }}?<p>
+	</md-dialog-content>
+	<div layout='row' layout-align="center">
+	    <md-button class="md-raised md-warn" ng-click="removeUser(user._id)" aria-label="confirm remove new user">
+	        Remove
+	    </md-button>
+	    <md-button class="md-raised md-primary" ng-click="cancel()" aria-label="cancel remove new user">
+	        Cancel
+	    </md-button>
+	</div>
+
+</md-dialog>

@@ -22,12 +22,21 @@ var _ = require('lodash'),
  * @return User Object - success
  * 			{message: error-message} - failure
  */
-var signup = function(req, res) {
-	if (req.user) {
-		res.status(200).send(_.omit(req.user, 'salt', 'password'));
-	} else {
-		res.status(400).send(err);
-	}	
+var signup = function(req, res, next) {
+	passport.authenticate('local-signup', function(err, user, info) {
+		if (err) {
+			throw err;
+		}
+		else if (user) {
+			console.log("YES");
+			console.log(user);
+			console.log(_.omit(user, 'password'));
+			res.status(200).send(_.omit(user, 'salt', 'password'));
+		} else {
+			console.log(info);
+			res.status(400).send(info);
+		}
+	})(req, res, next);
 }
 
 /**
@@ -43,11 +52,11 @@ var signup = function(req, res) {
  * @return User Object - success
  * 			{message: 'Missing Credentials'} - failure
  */
-var signin = function(req, res) {
+var signin = function(req, res, info) {
 	if (req.user) {
 		res.status(200).send(req.user);	
 	} else {
-		res.status(400).send(err);
+		res.status(400).send('no user');
 	}
 	
 }

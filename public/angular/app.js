@@ -67,7 +67,9 @@ angular.module('tripleT', [
 
 .constant("USER_ROLES", {
   admin: 'admin',
-  pm:    'pm'
+  it:    'admin',
+  pm:    'pm',
+  bro:   'bro', 
 })
 
 .controller("AppCtrl", function($scope, $rootScope, $location, USER_ROLES, AuthService) {
