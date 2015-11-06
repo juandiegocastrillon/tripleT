@@ -18,10 +18,10 @@ pmRequestContainerSchema.methods.addRequest = function(request) {
 pmRequestContainerSchema.methods.removeRequests = function(requests) {
 	currentRequests = this.requests;
 	_.forEach(requests, function(requestToDelete) {
-		currentRequests = _.remove(currentRequests, function(request) {
-			return request.author === requestToDelete.author && 
-				   request.item == requestToDelete.item;
+		idx = _.findIndex(currentRequests, function(request) {
+			return request.author === requestToDelete.author && request.item === requestToDelete.item;
 		});
+		currentRequests.splice(idx, 1);
 	});
 	this.requests = currentRequests;
 	this.save();
