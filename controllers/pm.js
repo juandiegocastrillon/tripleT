@@ -62,5 +62,20 @@ function addRequest(req, res){
   });
 }
 
+function removeRequests(req, res){
+  PmRequestContainer.findOne({}, function(err, pmRequestContainer) {
+    if (!pmRequestContainer)
+      res.status(400).send(NO_PM_REQUEST_CONTAINER_MSG);
+    if (err)
+      res.status(400).send(err);
+    else {
+      var pmRequests = JSON.parse(xss(req.query.pmRequests));
+      pmRequestContainer.removeRequests(pmRequests);
+    res.status(200).send();
+    }
+  }); // Double check status code is smart
+}
+
 module.exports.addRequest                      = addRequest;
 module.exports.getMostRecentPmRequestContainer = getMostRecentPmRequestContainer;
+module.exports.removeRequests                  = removeRequests;

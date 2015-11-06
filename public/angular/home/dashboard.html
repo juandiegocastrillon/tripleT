@@ -154,15 +154,10 @@
       <md-card class="md-whiteframe-z3">
         <md-card-content>
           <md-button ng-show="pmEditMode"
-                     ng-if="isAuthorized(userRoles.pm)"
-                     ng-click="togglePmEditMode()" 
-                     class="md-icon-button section-edit-btn">
-            <md-icon md-svg-icon="images/icons/edit.svg"></md-icon>
-          </md-button>
-          <md-button ng-hide="pmEditMode" 
-                     ng-click="togglePmEditMode()" 
-                     class="md-icon-button section-edit-btn">
-            <md-icon md-svg-icon="images/icons/done.svg"></md-icon>
+                     ng-if="!isAuthorized(userRoles.pm)"
+                     ng-click="toggleDeleteAllPmRequests()" 
+                     class="md-primary pm-request-remove-btn">
+              Check All
           </md-button>
           <h1 class="md-title">PM Requests</h1>
 
@@ -178,6 +173,10 @@
                   <h3 class="pm-item">{{ request.item }}</h3>
                   <p class="pm-item">{{ request.reason }}</p>
                 </div>
+                <md-checkbox ng-disabled="!isAuthorized(userRoles.pm) && currentUser.name != request.author" 
+                             ng-click="toggleDeletePmRequest(request, isAuthorized(userRoles.pm) || currentUser.name === request.author)"
+                             ng-checked="isToBeDeleted(request)">
+                             </md-checkbox>
               </md-list-item>
             </md-list>
           </div>
@@ -186,21 +185,25 @@
             <p class="no-pm-requests">No requests have been made</p>
           </div>
 
-
+          <div>
+            <md-button ng-disabled="!anyPmRequestSelected()" 
+                       ng-click="removeSelectedPmRequests()"
+                       class="md-primary pm-request-remove-btn">Remove</md-button>
+          </div>
           <!-- Form for adding new requests -->
           <md-divider></md-divider>
           <form name="pmRequestForm">
             <div layout="row" layout-align="space-between end">
               <md-input-container flex>
                 <label>Item...</label>
-                <input ng-model="pmRequest.item"/>
+                <input ng-required ng-model="pmRequest.item"/>
               </md-input-container>
               <md-input-container flex>
                 <label>Reason...</label>
-                <input ng-model="pmRequest.reason" />
+                <input ng-required ng-model="pmRequest.reason"/>
               </md-input-container>
               <md-input-container flex>
-                <md-button ng-click="makeRequest(pmRequest); pmRequest = ''" class="md-primary"
+                <md-button ng-click="makeRequest(pmRequest); pmRequest = undefined" class="md-primary"
                 type="submit">Make Request</md-button>
               </md-input-container> 
             </div>

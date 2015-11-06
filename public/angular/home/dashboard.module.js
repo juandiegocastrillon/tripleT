@@ -194,12 +194,17 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
         pmReqID = pmReqID._id;
     });
 
-    Pm.get({}, function(pmRequests) {
-      $scope.pmRequests = pmRequests.requests;
-      $scope.hasPmRequests = ($scope.pmRequests.length != 0);
-    });
+    function getPmRequests() {
+      Pm.get({}, function(pmRequests) {
+        $scope.pmRequests = pmRequests.requests;
+        $scope.hasPmRequests = ($scope.pmRequests.length != 0);
+      });
+    }
+
+    getPmRequests();
 
     $scope.makeRequest = function(pmRequest) {
+      if (!pmRequest) return;
       var newReq = {
         author: $scope.currentUser.name,
         item: pmRequest.item,
@@ -211,6 +216,48 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
       });
     }
 
+    $scope.pmRequestsToDelete = [];
+    $scope.toggleDeletePmRequest = function(pmRequest, permitted) {
+      if (!permitted) return;
+      if ($scope.pmRequestsToDelete.indexOf(pmRequest) > -1)
+        _.pull($scope.pmRequestsToDelete, pmRequest);
+      else
+        $scope.pmRequestsToDelete.push(pmRequest);
+    }
+
+    $scope.toggleDeleteAllPmRequests = function() {
+      if ($scope.pmRequestsToDelete.length === $scope.pmRequests.length) {
+        $scope.pmRequestsToDelete = [];
+      }
+      else {
+        _.forEach($scope.pmRequests, function(pmRequest) {
+          if ($scope.pmRequestsToDelete.indexOf(pmRequest) === -1) {
+            $scope.pmRequestsToDelete.push(pmRequest);
+          }
+        });
+      }
+    }
+
+    $scope.anyPmRequestSelected = function() {
+      return $scope.pmRequestsToDelete.length != 0;
+    }
+
+    $scope.isToBeDeleted = function(request) {
+      return $scope.pmRequestsToDelete.indexOf(request) != -1;
+    }
+
+    $scope.removeSelectedPmRequests = function() {
+      reqsToDelete = [];
+      _.forEach($scope.pmRequestsToDelete, function(pmRequest) {
+        reqsToDelete.push({
+          author: pmRequest.author,
+          item:   pmRequest.item,
+        });
+      });
+      Pm.delete({'pmRequests': JSON.stringify(reqsToDelete)}, function(res){});
+      getPmRequests();
+      $scope.pmRequestsToDelete = [];
+    }
    })
 
 .factory('Dining', function($resource) {
