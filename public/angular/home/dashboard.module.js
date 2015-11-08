@@ -204,7 +204,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     getPmRequests();
 
     $scope.makeRequest = function(pmRequest) {
-      if (!pmRequest) return;
+      if (!pmRequest || pmRequest.item.length < 2) return;
       var newReq = {
         author: $scope.currentUser.name,
         item: pmRequest.item,
