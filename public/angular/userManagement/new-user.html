@@ -1,5 +1,4 @@
-<!-- div class="new-user-container" -->
-<md-dialog class="new-user-container">
+<md-dialog class="new-user-container" aria-label="new user dialog">
     <md-toolbar>
         <h1 class='md-toolbar-tools'>Create new user</h1>
     </md-toolbar>
@@ -23,14 +22,13 @@
             </md-select>
         </md-input-container>
         <md-divider></md-divider>
-        <div class="md-actions" layout="row" layout-align="end center">
+        <md-dialog-actions class="md-actions" layout="row" layout-align="end center">
             <div class='new-user-error-msg'>
                 {{ errorMsg }}
             </div>
             <md-button class="md-raised md-primary" ng-click="createNewUser(newUser)" aria-label="create new user">
                 Create
             </md-button>
-        </div>
+        </md-dialog-actions>
     </md-dialog-content>
 </md-dialog>
-<!-- </div> -->

@@ -47,8 +47,8 @@ var signup = function(req, res, next) {
  * Signin after passport authentication
  * @route : POST /auth/signin
  * @req_param:
- * 		email : string
  * 		kerberos : string
+ * 		password : string
  * @return User Object - success
  * 			{message: 'Missing Credentials'} - failure
  */
