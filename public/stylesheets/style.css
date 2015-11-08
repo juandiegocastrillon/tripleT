@@ -11,6 +11,10 @@
   width: 300px;
 }
 
+.dashboard-cards {
+  width: 600px;
+}
+
 .new-user-error-msg {
   font-size: 15px;
   color: red;
@@ -18,11 +22,6 @@
 
 .toolbar-link {
    margin: 0px 10px;
-}
-
-#dashboard-cards {
-   max-width: 1080px;
-   min-width: 560px;
 }
 
 .text-center {

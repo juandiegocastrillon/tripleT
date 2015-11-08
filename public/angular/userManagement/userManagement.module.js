@@ -50,7 +50,8 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
         parent: angular.element(document.body),
         targetEvent: ev,
         clickOutsideToClose: true,
-        scope: $scope
+        scope: $scope,
+        preserveScope: true
       })
     }
 
@@ -62,14 +63,14 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
         locals: {user: user},
         targetEvent: ev,
         clickOutsideToClose: true,
-        scope: $scope
+        scope: $scope,
+        preserveScope: true
       })
     }
 })
 
 .controller('NewUserCtrl', 
   function($scope, $http, $mdDialog) {
-    // $scope.allRoles = allRoles;
     $scope.createNewUser = function(newUser) {
       $http.post('/auth/signup', newUser).then(function(res) {
         var user = res.data;
@@ -77,6 +78,7 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
         $mdDialog.hide();
       }, function(err) {
         $scope.errorMsg = err.data.message;
+        $mdDialog.cancel();
       })
     }
 })
