@@ -254,9 +254,10 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
           item:   pmRequest.item,
         });
       });
-      Pm.delete({'pmRequests': JSON.stringify(reqsToDelete)}, function(res){});
-      getPmRequests();
-      $scope.pmRequestsToDelete = [];
+      Pm.delete({'pmRequests': JSON.stringify(reqsToDelete)}, function(res){
+          getPmRequests();
+      });
+      $scope.pmRequestsToDelete = []; 
     }
    })
 
