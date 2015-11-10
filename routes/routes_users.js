@@ -32,6 +32,8 @@ module.exports = function(app) {
    
    app.route('/auth/signout').get(users.signout);
 
+   app.route('/auth/changepassword').post(users.changepassword);
+
    // middleware
    // bind :userId to req.profile
    app.param('userId', users.userByID);

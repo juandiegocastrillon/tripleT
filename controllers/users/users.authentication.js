@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var xss = require('xss');
 
 /**
  * Module dependencies.
@@ -71,6 +72,25 @@ var signout = function(req, res) {
 	res.redirect('/#/userManagement');
 };
 
+var changepassword = function(req, res, next) {
+	passport.authenticate('change-password', function(err, user, info) {
+		if (err)
+			throw err;
+		else if (user) {
+			var newPassword = xss(req.body.newPassword);
+			var success = user.changePassword(newPassword);
+			if (success)
+				res.status(200).send();
+			else 
+				res.status(400).send({'message': 'Password not long enough'});
+		}
+		else {
+			res.status(400).send(info);
+		}
+	})(req, res, next);
+}
+
 module.exports.signup = signup;
 module.exports.signin = signin;
 module.exports.signout = signout;
+module.exports.changepassword = changepassword;

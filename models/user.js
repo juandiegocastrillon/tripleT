@@ -89,6 +89,18 @@ UserSchema.methods.hashPassword = function(password) {
 };
 
 /**
+ * Create instance method for changing a password 
+ */
+ UserSchema.methods.changePassword = function(newPassword) {
+ 	if (newPassword && newPassword.length > 6) {
+ 		this.password = newPassword;
+ 		this.save();
+ 		return true;
+ 	}
+ 	return false;
+ };
+
+/**
  * Create instance method for authenticating user
  */
 UserSchema.methods.authenticate = function(password) {

@@ -82,4 +82,24 @@ module.exports = function(passport) {
 		});
 
    }));
+
+	passport.use('change-password', new LocalStrategy({
+		usernameField: 'kerberos',
+		passwordField: 'password',
+		passReqToCallback: true
+		},
+		function(req, kerberos, password, done) {
+			User.findOne({'kerberos': kerberos}, function(err, user) {
+				if (err)
+					return done(err);
+				if (!user)
+					return done(null, false, { message: 'Unknown user' });
+				if (!user.authenticate(password)){
+					return done(null, false, { message: 'Incorrect password' });
+				}
+				// otherwise, the user we found is the current user.
+				return done(null, user);
+			});
+		}
+	));
 };

@@ -9,6 +9,11 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
     templateUrl: '/angular/home/userManagement.html',
     controller: 'UserMgmtCtrl'
   });
+
+  $routeProvider.when('/changePassword', {
+    templateUrl: '/angular/userManagement/changePassword.html',
+    controller: 'ChangePwdCtrl'
+  });
 })
 
 .controller('SignInCtrl',
@@ -66,6 +71,37 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
         scope: $scope,
         preserveScope: true
       })
+    }
+})
+
+.controller('ChangePwdCtrl', 
+  function($scope, $http, $timeout) {
+    // userInput = {
+    //    password: their current password
+    //    newPassword: what they want it to be
+    //    confirmNewPassword: above. hopefully.   
+    //  }
+    $scope.changePassword = function(userInput) {
+      $scope.passwordChanged = false;
+      $scope.errorMsg = null;
+      if (userInput.newPassword != userInput.confirmNewPassword)
+        $scope.errorMsg = 'New passwords entered do not match';
+      else {
+        $http.post('/auth/changepassword',{
+          'kerberos': $scope.currentUser.kerberos,
+          'password': userInput.password,
+          'newPassword': userInput.newPassword
+        })
+        .then(function(res) {
+          $scope.passwordChanged = true;
+          $scope.animated = true;
+          $timeout(function() {
+            $scope.passwordChanged = false;
+          }, 3000);
+        }, function(err) {
+          $scope.errorMsg = err.data.message;
+        })
+      }
     }
 })
 
