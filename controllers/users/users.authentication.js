@@ -73,7 +73,7 @@ var signout = function(req, res) {
 };
 
 var changepassword = function(req, res, next) {
-	passport.authenticate('change-password', function(err, user, info) {
+	passport.authenticate('validated-get-user', function(err, user, info) {
 		if (err)
 			throw err;
 		else if (user) {

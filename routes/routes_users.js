@@ -26,7 +26,7 @@ module.exports = function(app) {
    // Setting up the users authentication api
    app.route('/auth/signup').post(users.signup);
    
-   app.route('/auth/signin').post(passport.authenticate('local-login', {
+   app.route('/auth/signin').post(passport.authenticate('validated-get-user', {
       // failureFlash: true
    }), users.signin);
    
