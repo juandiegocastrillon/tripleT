@@ -87,7 +87,7 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
       if (userInput.newPassword != userInput.confirmNewPassword)
         $scope.errorMsg = 'New passwords entered do not match';
       else {
-        $http.post('/auth/changepassword',{
+        $http.post('/auth/changePassword',{
           'kerberos': $scope.currentUser.kerberos,
           'password': userInput.password,
           'newPassword': userInput.newPassword
