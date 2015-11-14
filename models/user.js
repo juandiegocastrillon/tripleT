@@ -69,7 +69,7 @@ var UserSchema = new Schema({
  * Hook a pre save method to hash the password
  */
 UserSchema.pre('save', function(next) {
-	if (!user.isModified('password')) return next();
+	if (!this.isModified('password')) return next();
 	
 	this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
 	this.password = this.hashPassword(this.password);
