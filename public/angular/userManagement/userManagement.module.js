@@ -18,7 +18,7 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
 
 .controller('SignInCtrl',
   function($scope, $location, AuthService, $window){
-    $scope.signin = function(credentials) {
+    $scope.signIn = function(credentials) {
       AuthService.login(credentials)
       .then(function(user) {
         $scope.setCurrentUser(user);
@@ -108,7 +108,7 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
 .controller('NewUserCtrl', 
   function($scope, $http, $mdDialog) {
     $scope.createNewUser = function(newUser) {
-      $http.post('/auth/signup', newUser).then(function(res) {
+      $http.post('/auth/signUp', newUser).then(function(res) {
         var user = res.data;
         $scope.users.push(user);
         $mdDialog.hide();

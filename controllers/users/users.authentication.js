@@ -14,7 +14,7 @@ var _ = require('lodash'),
 
 /**
  * Sign up controller
- * @route : POST /auth/signup
+ * @route : POST /auth/signUp
  * @req_param:
  * 		name : string
  * 		kerberos : unique string
@@ -23,18 +23,14 @@ var _ = require('lodash'),
  * @return User Object - success
  * 			{message: error-message} - failure
  */
-var signup = function(req, res, next) {
+var signUp = function(req, res, next) {
 	passport.authenticate('local-signup', function(err, user, info) {
 		if (err) {
 			throw err;
 		}
 		else if (user) {
-			console.log("YES");
-			console.log(user);
-			console.log(_.omit(user, 'password'));
 			res.status(200).send(_.omit(user, 'salt', 'password'));
 		} else {
-			console.log(info);
 			res.status(400).send(info);
 		}
 	})(req, res, next);
@@ -46,14 +42,14 @@ var signup = function(req, res, next) {
 
 /**
  * Signin after passport authentication
- * @route : POST /auth/signin
+ * @route : POST /auth/signIn
  * @req_param:
  * 		kerberos : string
  * 		password : string
  * @return User Object - success
  * 			{message: 'Missing Credentials'} - failure
  */
-var signin = function(req, res, info) {
+var signIn = function(req, res, info) {
 	if (req.user) {
 		res.status(200).send(req.user);	
 	} else {
@@ -64,15 +60,15 @@ var signin = function(req, res, info) {
 
 /**
  * Signout
- * @route : GET /auth/signout
+ * @route : GET /auth/signOut
  * @return 'Success' - success
  */
-var signout = function(req, res) {
+var signOut = function(req, res) {
 	req.logout();
 	res.redirect('/#/userManagement');
 };
 
-var changepassword = function(req, res, next) {
+var changePassword = function(req, res, next) {
 	passport.authenticate('validated-get-user', function(err, user, info) {
 		if (err)
 			throw err;
@@ -90,7 +86,7 @@ var changepassword = function(req, res, next) {
 	})(req, res, next);
 }
 
-module.exports.signup = signup;
-module.exports.signin = signin;
-module.exports.signout = signout;
-module.exports.changepassword = changepassword;
+module.exports.signUp = signUp;
+module.exports.signIn = signIn;
+module.exports.signOut = signOut;
+module.exports.changePassword = changePassword;
