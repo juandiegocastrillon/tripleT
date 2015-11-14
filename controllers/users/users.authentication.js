@@ -74,11 +74,18 @@ var changePassword = function(req, res, next) {
 			throw err;
 		else if (user) {
 			var newPassword = xss(req.body.newPassword);
-			var success = user.changePassword(newPassword);
-			if (success)
-				res.status(200).send();
-			else 
-				res.status(400).send({'message': 'Password not long enough'});
+			user.changePassword(newPassword);
+			user.save(function(err, product, numAffected) {
+				if (!err)
+					res.status(200).send();
+				else {
+					var passwordErrors = err.errors.password;
+					if (passwordErrors)
+						res.status(400).send(passwordErrors.properties);
+					else
+						res.status(500).send();
+				}
+			});
 		}
 		else {
 			res.status(400).send(info);
