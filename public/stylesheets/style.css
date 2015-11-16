@@ -1,5 +1,6 @@
-.sign-in-card {
+.input-card {
    min-width: 355px;
+   padding: 5%;
 }
 
 .user-management-card {
@@ -15,9 +16,14 @@
   width: 600px;
 }
 
-.new-user-error-msg {
+.error-msg {
   font-size: 15px;
   color: red;
+}
+
+.change-password-text {
+  font-size: 14px;
+  margin-right: 5%;
 }
 
 .toolbar-link {

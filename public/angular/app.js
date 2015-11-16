@@ -44,7 +44,7 @@ angular.module('tripleT', [
   var authService = {};
 
   authService.login = function(credentials) {
-    return $http.post('/auth/signin', credentials)
+    return $http.post('/auth/signIn', credentials)
     .then(function(res) {
       return res.data;
     });

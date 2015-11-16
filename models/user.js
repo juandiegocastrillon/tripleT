@@ -69,11 +69,10 @@ var UserSchema = new Schema({
  * Hook a pre save method to hash the password
  */
 UserSchema.pre('save', function(next) {
-	if (this.password && this.password.length > 6) {
-		this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
-		this.password = this.hashPassword(this.password);
-	}
-
+	if (!this.isModified('password')) return next();
+	
+	this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
+	this.password = this.hashPassword(this.password);
 	next();
 });
 
@@ -87,6 +86,13 @@ UserSchema.methods.hashPassword = function(password) {
 		return password;
 	}
 };
+
+/**
+ * Create instance method for changing a password 
+ */
+ UserSchema.methods.changePassword = function(newPassword) {
+	this.password = newPassword;
+ };
 
 /**
  * Create instance method for authenticating user

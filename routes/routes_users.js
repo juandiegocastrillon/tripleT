@@ -24,13 +24,15 @@ module.exports = function(app) {
       .get(users.requiresLogin, users.allUsers);
 
    // Setting up the users authentication api
-   app.route('/auth/signup').post(users.signup);
+   app.route('/auth/signUp').post(users.signUp);
    
-   app.route('/auth/signin').post(passport.authenticate('local-login', {
+   app.route('/auth/signIn').post(passport.authenticate('validated-get-user', {
       // failureFlash: true
-   }), users.signin);
+   }), users.signIn);
    
-   app.route('/auth/signout').get(users.signout);
+   app.route('/auth/signOut').get(users.signOut);
+
+   app.route('/auth/changePassword').post(users.changePassword);
 
    // middleware
    // bind :userId to req.profile

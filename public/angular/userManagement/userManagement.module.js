@@ -9,11 +9,16 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
     templateUrl: '/angular/home/userManagement.html',
     controller: 'UserMgmtCtrl'
   });
+
+  $routeProvider.when('/changePassword', {
+    templateUrl: '/angular/userManagement/changePassword.html',
+    controller: 'ChangePwdCtrl'
+  });
 })
 
 .controller('SignInCtrl',
   function($scope, $location, AuthService, $window){
-    $scope.signin = function(credentials) {
+    $scope.signIn = function(credentials) {
       AuthService.login(credentials)
       .then(function(user) {
         $scope.setCurrentUser(user);
@@ -69,10 +74,41 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
     }
 })
 
+.controller('ChangePwdCtrl', 
+  function($scope, $http, $timeout) {
+    // userInput = {
+    //    password: their current password
+    //    newPassword: what they want it to be
+    //    confirmNewPassword: above. hopefully.   
+    //  }
+    $scope.changePassword = function(userInput) {
+      $scope.passwordChanged = false;
+      $scope.errorMsg = null;
+      if (userInput.newPassword != userInput.confirmNewPassword)
+        $scope.errorMsg = 'New passwords entered do not match';
+      else {
+        $http.post('/auth/changePassword',{
+          'kerberos': $scope.currentUser.kerberos,
+          'password': userInput.password,
+          'newPassword': userInput.newPassword
+        })
+        .then(function(res) {
+          $scope.passwordChanged = true;
+          $scope.animated = true;
+          $timeout(function() {
+            $scope.passwordChanged = false;
+          }, 3000);
+        }, function(err) {
+          $scope.errorMsg = err.data.message;
+        })
+      }
+    }
+})
+
 .controller('NewUserCtrl', 
   function($scope, $http, $mdDialog) {
     $scope.createNewUser = function(newUser) {
-      $http.post('/auth/signup', newUser).then(function(res) {
+      $http.post('/auth/signUp', newUser).then(function(res) {
         var user = res.data;
         $scope.users.push(user);
         $mdDialog.hide();

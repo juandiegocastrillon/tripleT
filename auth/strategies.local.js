@@ -3,13 +3,13 @@
 /**
  * Module dependencies.
  */
-	var LocalStrategy = require('passport-local').Strategy;
-	var User = require('mongoose').model('User');
-	var _ = require('lodash');
+var LocalStrategy = require('passport-local').Strategy;
+var User = require('mongoose').model('User');
+var _ = require('lodash');
 
 module.exports = function(passport) {
 	// Use local strategy
-	passport.use('local-login', new LocalStrategy({
+	passport.use('validated-get-user', new LocalStrategy({
 			usernameField: 'kerberos',
 			passwordField: 'password',
 			// passReqToCallback : true

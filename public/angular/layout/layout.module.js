@@ -19,8 +19,8 @@ angular.module('tripleT.layout', [])
       $location.path(url);
     }
 
-    $scope.signout = function() {
-      $http.get('/auth/signout')
+    $scope.signOut = function() {
+      $http.get('/auth/signOut')
         .then(function() {
           $location.path('/signin');
           $window.location.reload();
