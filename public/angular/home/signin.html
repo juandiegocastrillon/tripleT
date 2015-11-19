@@ -13,6 +13,11 @@
             </md-input-container>
          </md-card-content>
          <div class="md-actions" layout="row" layout-align="end center">
+            <span ng-show="errorMsg"
+               ng-class="{ 'bounceIn' : errorMsg, 'bounceOut' : !errorMsg }" 
+               class="animated error-msg change-password-text">
+               {{ errorMsg }}
+            </span>
             <md-button type="submit" class="md-raised" ng-click="signIn(credentials)">Sign in</md-button>
          </div>
       </form>

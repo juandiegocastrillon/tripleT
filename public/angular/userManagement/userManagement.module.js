@@ -23,6 +23,8 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
       .then(function(user) {
         $scope.setCurrentUser(user);
         $location.path('/');
+      }, function() {
+        $scope.errorMsg = "Incorrect kerberos or password"
       })
     }
   })
@@ -114,7 +116,6 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
         $mdDialog.hide();
       }, function(err) {
         $scope.errorMsg = err.data.message;
-        $mdDialog.cancel();
       })
     }
 })
