@@ -23,6 +23,8 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
       .then(function(user) {
         $scope.setCurrentUser(user);
         $location.path('/');
+      }, function() {
+        $scope.errorMsg = "Incorrect kerberos or password"
       })
     }
   })

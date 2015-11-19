@@ -10,10 +10,14 @@ angular.module('tripleT', [
   'tripleT.layout'
 ])
 
-.config(function($routeProvider) {
+.config(function($routeProvider, $mdThemingProvider) {
   $routeProvider.otherwise({
     redirectTo: '/'
   });
+
+  $mdThemingProvider.theme('default')
+    .primaryPalette('blue')
+    .accentPalette('red');
 })
 
 .run(function($rootScope, $timeout, $http, $location, AuthService) {
@@ -67,9 +71,10 @@ angular.module('tripleT', [
 
 .constant("USER_ROLES", {
   admin: 'admin',
-  it:    'admin',
   pm:    'pm',
-  bro:   'bro', 
+  comm:  'comm',
+  bro:   'bro',
+  acomm: 'acomm'
 })
 
 .controller("AppCtrl", function($scope, $rootScope, $location, USER_ROLES, AuthService) {
