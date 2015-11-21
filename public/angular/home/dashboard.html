@@ -147,7 +147,7 @@
       <md-card class="md-whiteframe-z3">
         <md-card-content>
           <md-button ng-show="pmEditMode"
-                     ng-if="!isAuthorized([userRoles.pm, userRoles.comm])"
+                     ng-if="isAuthorized([userRoles.pm, userRoles.comm])"
                      ng-click="toggleDeleteAllPmRequests()" 
                      class="md-primary pm-request-remove-btn">
               Check All
