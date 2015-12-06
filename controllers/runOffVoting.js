@@ -15,7 +15,8 @@ function getWinner(votesFromDB) {
 
    while (true) {
       var count = countVotes(votes);
-      var min, max;
+      var min = "";
+      var max = "";
       _.forEach(count, function(freq, candidate) {
          if (!min || !max) {
             min = {candidate: candidate, freq: freq};
@@ -33,7 +34,7 @@ function getWinner(votesFromDB) {
          return max.candidate;
       }
 
-      votes = removeLoser(votes, min.candidate);   
+      votes = removeLoser(votes, min.candidate);
    }
 }
 
