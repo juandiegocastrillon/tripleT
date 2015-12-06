@@ -134,7 +134,7 @@ function getResult(req, res) {
       .populate('votes')
       .exec(function(err, election) {
          if (election) {
-            if (election.creator === req.user.kerberos) {
+            if (election.creator === req.user.kerberos || req.user.role == 'admin') {
                var winner = irv.getWinner(election.votes);
                res.status(200).send(winner);   
             } else {
