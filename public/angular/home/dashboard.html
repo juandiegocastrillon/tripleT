@@ -147,7 +147,7 @@
       <md-card class="md-whiteframe-z3">
         <md-card-content>
           <md-button ng-show="pmEditMode"
-                     ng-if="isAuthorized([userRoles.pm, userRoles.comm])"
+                     ng-if="isAuthorized([userRoles.pm, userRoles.comm, userRoles.admin])"
                      ng-click="toggleDeleteAllPmRequests()" 
                      class="md-primary pm-request-remove-btn">
               Check All
@@ -166,8 +166,8 @@
                   <h3 class="pm-item">{{ request.item }}</h3>
                   <p class="pm-item">{{ request.reason }}</p>
                 </div>
-                <md-checkbox ng-disabled="!isAuthorized([userRoles.pm, userRoles.comm]) && currentUser.name != request.author" 
-                             ng-click="toggleDeletePmRequest(request, isAuthorized([userRoles.pm, userRoles.comm]) || currentUser.name === request.author)"
+                <md-checkbox ng-disabled="!isAuthorized([userRoles.pm, userRoles.comm, userRoles.admin]) && currentUser.name != request.author" 
+                             ng-click="toggleDeletePmRequest(request)"
                              ng-checked="isToBeDeleted(request)">
                              </md-checkbox>
               </md-list-item>

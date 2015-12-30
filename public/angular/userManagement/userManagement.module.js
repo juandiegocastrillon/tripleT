@@ -111,6 +111,8 @@ angular.module('tripleT.userManagement', ['ngRoute', 'ngMessages'])
   function($scope, $http, $mdDialog) {
     $scope.createNewUser = function(newUser) {
       $http.post('/auth/signUp', newUser).then(function(res) {
+        $scope.errorMsg = "";
+        $scope.newUser = {};
         var user = res.data;
         $scope.users.push(user);
         $mdDialog.hide();

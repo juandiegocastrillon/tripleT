@@ -204,7 +204,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     getPmRequests();
 
     $scope.makeRequest = function(pmRequest) {
-      if (!pmRequest || pmRequest.item.length < 2) return;
+      if (!pmRequest) return;
       var newReq = {
         author: $scope.currentUser.name,
         item: pmRequest.item,
@@ -217,8 +217,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     }
 
     $scope.pmRequestsToDelete = [];
-    $scope.toggleDeletePmRequest = function(pmRequest, permitted) {
-      if (!permitted) return;
+    $scope.toggleDeletePmRequest = function(pmRequest) {
       if ($scope.pmRequestsToDelete.indexOf(pmRequest) > -1)
         _.pull($scope.pmRequestsToDelete, pmRequest);
       else
