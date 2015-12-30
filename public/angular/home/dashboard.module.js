@@ -181,7 +181,9 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
         })
     }
 
-    // PM REQUESTS
+    /*******************************
+     ************ PM Requests ******
+     *******************************/
     //set variables
     $scope.pmEditMode = true;
 

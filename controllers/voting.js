@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var xss = require('xss');
 var _ = require('lodash');
 var assert = require('assert');
-var irv = require('./runOffVoting.js');
+var votingAlgo = require('./votingAlgorithms.js');
 
 var Election = mongoose.model('Election');
 var Vote = mongoose.model('Vote');
@@ -26,6 +26,7 @@ function makeNewElection(req, res) {
    newElectionData.candidates = xss(req.body.candidates).split(',');
    newElectionData.candidates = _.uniq(newElectionData.candidates);
    newElectionData.creator = req.user.kerberos;
+   newElectionData.numWinners = req.body.numWinners;
 
    var newElection = new Election(newElectionData);
 
@@ -135,7 +136,12 @@ function getResult(req, res) {
       .exec(function(err, election) {
          if (election) {
             if (election.creator === req.user.kerberos || req.user.role == 'admin') {
-               var winner = irv.getWinner(election.votes);
+               var winner;
+               if (election.numWinners == 1) {
+                  winner = votingAlgo.instantRunOff(election.votes);
+               } else {
+                  winner = votingAlgo.classicalElection(election.votes, election.numWinners);
+               }
                res.status(200).send(winner);   
             } else {
                res.status(400).send("Not authorized to get winner");

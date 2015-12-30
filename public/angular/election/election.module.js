@@ -1,7 +1,9 @@
 angular.module('tripleT.dashboard')
 .controller('newElectionCtrl',
   function($scope, Elections, $location, $timeout, $mdDialog) {
+    $scope.election = {numWinners: 1};
     $scope.createElection = function() {
+      console.log($scope.election.numWinners);
       $scope.election.candidates = $scope.election.candidates.split('\n');
       Elections.save({}, $scope.election,
         function() {

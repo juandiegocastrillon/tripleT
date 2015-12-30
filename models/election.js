@@ -11,6 +11,11 @@ var electionSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  numWinners: {
+    type: Number,
+    required: true,
+    default: 1
+  },
   candidates: [{
     type: String,
     required: true
