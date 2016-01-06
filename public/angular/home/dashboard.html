@@ -146,30 +146,34 @@
       <!-- PM Requests -->
       <md-card class="md-whiteframe-z3">
         <md-card-content>
-          <md-button ng-show="pmEditMode"
-                     ng-if="isAuthorized([userRoles.pm, userRoles.comm, userRoles.admin])"
-                     ng-click="toggleDeleteAllPmRequests()" 
-                     class="md-primary pm-request-remove-btn">
-              Check All
+          <md-button ng-disabled="!anyPmRequestSelected()" 
+                       ng-click="removeSelectedPmRequests()"
+                       class="md-primary pm-request-remove-btn md-fab md-mini">
+            <md-icon md-svg-icon="images/icons/remove.svg"></md-icon>
+          </md-button>
+          <md-button ng-if="isAuthorized([userRoles.pm, userRoles.comm, userRoles.admin])"
+                     ng-click="toggleDeleteAllPmRequests().id" 
+                     class="md-primary pm-request-remove-btn md-fab md-mini">
+              <md-icon md-svg-icon="images/icons/done_all_white.svg"></md-icon>
           </md-button>
           <h1 class="md-title">PM Requests</h1>
 
         <!-- Display current requests -->
           <div ng-if="hasPmRequests">
             <md-list class="fixedRows">
-              <md-header>Current PM Requests:</md-header>
               <md-list-item class="md-2-line" ng-repeat="request in pmRequests">
                 <div class="pm-item-author">
-                  <p>{{ request.author }}</p>
+                  <p hide-gt-xs>{{ request.author.displayName }}</p>
+                  <p hide-xs> {{ request.author.name }}</p>
                 </div>
                 <div class="md-list-item-text">
                   <h3 class="pm-item">{{ request.item }}</h3>
                   <p class="pm-item">{{ request.reason }}</p>
                 </div>
-                <md-checkbox ng-disabled="!isAuthorized([userRoles.pm, userRoles.comm, userRoles.admin]) && currentUser.name != request.author" 
-                             ng-click="toggleDeletePmRequest(request)"
-                             ng-checked="isToBeDeleted(request)">
-                             </md-checkbox>
+                <md-checkbox ng-disabled="!isAuthorized([userRoles.pm, userRoles.comm, userRoles.admin]) && currentUser.kerberos != request.author.kerberos" 
+                             ng-click="toggleDeletePmRequest(request._id)"
+                             ng-checked="isToBeDeleted(request._id)">
+                </md-checkbox>
               </md-list-item>
             </md-list>
           </div>
@@ -179,25 +183,25 @@
           </div>
 
           <div>
-            <md-button ng-disabled="!anyPmRequestSelected()" 
-                       ng-click="removeSelectedPmRequests()"
-                       class="md-primary pm-request-remove-btn">Remove</md-button>
           </div>
           <!-- Form for adding new requests -->
           <md-divider></md-divider>
           <form name="pmRequestForm">
             <div layout="row" layout-align="space-between end">
-              <md-input-container flex>
+              <md-input-container>
                 <label>Item...</label>
                 <input ng-required ng-model="pmRequest.item"/>
               </md-input-container>
-              <md-input-container flex>
+              <md-input-container>
                 <label>Reason...</label>
                 <input ng-required ng-model="pmRequest.reason"/>
               </md-input-container>
-              <md-input-container flex>
-                <md-button ng-click="makeRequest(pmRequest); pmRequest = undefined" class="md-primary"
-                type="submit">Make Request</md-button>
+              <md-input-container>
+                <md-button ng-click="makeRequest(pmRequest); pmRequest = undefined" 
+                          class="md-fab md-mini"
+                          type="submit">
+                  <md-icon md-svg-icon="images/icons/add.svg"></md-icon>
+                </md-button>
               </md-input-container> 
             </div>
           </form>

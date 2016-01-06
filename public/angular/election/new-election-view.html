@@ -3,31 +3,31 @@
     <h2 class="md-toolbar-tools">Create Election</h2>
   </md-toolbar>
   <md-dialog-content>
-         <div>
-            <div class="election-candidate-container">
-               <form action="#">
-              <md-input-container class="new-election-textbox">
-                <input type="text" ng-model="election.name" />
-                <label>Election title...</label>
-              </md-input-container>
-              <md-input-container>
-                <label>Number of Winners</label>
-                <md-select ng-model="election.numWinners">
-                  <md-option ng-value="opt" ng-repeat="opt in [1,2,3,4,5,6,7,8,9,10]">{{ opt }}</md-option>
-                </md-select>
-              </md-input-container>
-              <md-input-container>
-                <textarea type="text" rows= "3" ng-model="election.candidates" ></textarea>
-                <label>Candidates...</label>
-                <md-tooltip>One line per candidate</md-tooltip>
-              </md-input-container>
-            </form>
-            </div>
-            <div class="md-actions">
-               <md-button ng-click="createElection()">
-                Create
-               </md-button>
-            </div>
-         </div>
+    <div>
+      <div class="election-candidate-container">
+        <form action="#" layout="column" layout-align="space-around stretch">
+          <md-input-container class="new-election-textbox">
+            <input type="text" ng-model="election.name" />
+            <label>Election title...</label>
+          </md-input-container>
+          <md-input-container>
+            <label>Number of Winners</label>
+            <md-select ng-model="election.numWinners">
+              <md-option ng-value="opt" ng-repeat="opt in [1,2,3,4,5,6,7,8,9,10]">{{ opt }}</md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container>
+            <textarea type="text" ng-model="election.candidates" ></textarea>
+            <label>Candidates...</label>
+            <md-tooltip>One line per candidate</md-tooltip>
+          </md-input-container>
+        </form>
+      </div>
+      <div class="md-actions">
+         <md-button ng-click="createElection()">
+          Create
+         </md-button>
+      </div>
+    </div>
   </md-dialog-content>
 </md-dialog>

@@ -1,8 +1,11 @@
+'use strict';
+
 var mongoose = require('mongoose');
 
 var pmRequestSchema = mongoose.Schema({
   author: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
     required: true
   },
   item: {
@@ -10,10 +13,6 @@ var pmRequestSchema = mongoose.Schema({
     required: true
   },
   reason: {
-    type: String,
-    required: false
-  },
-  date: {
     type: String,
     required: false
   }
