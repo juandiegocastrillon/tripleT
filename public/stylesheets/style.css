@@ -59,39 +59,24 @@ main {
 
 .election-candidate-container {
    margin: 20px 15px;
-   width: 330px;
 }
 
 .election-submit-text {
    font-size: 14px;
-   padding: 0px 13px;
+   text-align: center;
+   padding: 0px 5px;
    color: rgb(147, 147, 147);
 }
 
-.home-election-name {
-   padding: 10px;
-   display: inline-block;
-}
-
-.home-election {
-   padding: 0px 16px;
-}
-
-.home-election:hover {
-   background-color: rgb(240, 240, 240);
-   border-radius: 3px;
-   cursor: pointer;
+.election-winner-text {
+   text-align: center;
+   padding: 5px 10px;
+   font-size: 18px;
 }
 
 .show-results-icon {
    float: right;
    margin: 5px;
-}
-
-.home-election-winner-text {
-   padding: 10px;
-   margin: 0px;
-   float: right;
 }
 
 .dining-subtitle {
@@ -136,15 +121,6 @@ main {
 #bibles {
    height: 300px;
    width: 100%;
-}
-
-#pmRequestTable {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  margin-bottom: 16px;
-  table-layout: fixed;
-  width: 100;
 }
 
 .pm-item-author {

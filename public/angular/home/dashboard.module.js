@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
 .config(function($routeProvider) {
   $routeProvider.when('/', {
@@ -37,7 +39,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
       $mdDialog.show({
         template:
           '<md-dialog>' +
-          ' <md-dialog-content>' +
+          ' <md-dialog-content class="election-winner-text">' +
               winner +
           ' </md-dialog- content>' +
           '</md-dialog>',
@@ -184,46 +186,37 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     /*******************************
      ************ PM Requests ******
      *******************************/
-    //set variables
-    $scope.pmEditMode = true;
-
-    $scope.togglePmEditMode = function() {
-      $scope.pmEditMode = !$scope.pmEditMode;
-    }
-
-    var pmReqID;
-    $http.get('/pm').success(function(pmReqID) {
-        pmReqID = pmReqID._id;
-    });
 
     function getPmRequests() {
-      Pm.get({}, function(pmRequests) {
-        $scope.pmRequests = pmRequests.requests;
+      Pm.query({}, function(pmRequests) {
+        $scope.pmRequests = pmRequests;
         $scope.hasPmRequests = ($scope.pmRequests.length != 0);
       });
     }
-
     getPmRequests();
 
     $scope.makeRequest = function(pmRequest) {
       if (!pmRequest) return;
       var newReq = {
-        author: $scope.currentUser.name,
+        author: $scope.currentUser._id,
         item: pmRequest.item,
         reason: pmRequest.reason,
       }
       Pm.save(newReq, function(res){
-        $scope.pmRequests.push(newReq);
+        $scope.pmRequests.push(res);
         $scope.hasPmRequests = true;
       });
     }
 
     $scope.pmRequestsToDelete = [];
-    $scope.toggleDeletePmRequest = function(pmRequest) {
-      if ($scope.pmRequestsToDelete.indexOf(pmRequest) > -1)
-        _.pull($scope.pmRequestsToDelete, pmRequest);
-      else
-        $scope.pmRequestsToDelete.push(pmRequest);
+    $scope.toggleDeletePmRequest = function(pmRequestID) {
+      console.log(pmRequestID);
+      if (_.includes($scope.pmRequestsToDelete, pmRequestID)) {
+        _.pull($scope.pmRequestsToDelete, pmRequestID);
+      } else {
+        $scope.pmRequestsToDelete.push(pmRequestID);
+      }
+      console.log($scope.pmRequestsToDelete);
     }
 
     $scope.toggleDeleteAllPmRequests = function() {
@@ -231,11 +224,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
         $scope.pmRequestsToDelete = [];
       }
       else {
-        _.forEach($scope.pmRequests, function(pmRequest) {
-          if ($scope.pmRequestsToDelete.indexOf(pmRequest) === -1) {
-            $scope.pmRequestsToDelete.push(pmRequest);
-          }
-        });
+        $scope.pmRequestsToDelete = _.pluck($scope.pmRequests, '_id');
       }
     }
 
@@ -243,18 +232,13 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
       return $scope.pmRequestsToDelete.length != 0;
     }
 
-    $scope.isToBeDeleted = function(request) {
-      return $scope.pmRequestsToDelete.indexOf(request) != -1;
+    $scope.isToBeDeleted = function(requestID) {
+      return _.includes($scope.pmRequestsToDelete, requestID);
     }
 
     $scope.removeSelectedPmRequests = function() {
-      reqsToDelete = [];
-      _.forEach($scope.pmRequestsToDelete, function(pmRequest) {
-        reqsToDelete.push({
-          author: pmRequest.author,
-          item:   pmRequest.item,
-        });
-      });
+      var reqsToDelete = $scope.pmRequestsToDelete;
+
       Pm.delete({'pmRequests': JSON.stringify(reqsToDelete)}, function(res){
           getPmRequests();
       });
