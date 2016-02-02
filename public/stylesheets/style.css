@@ -15,10 +15,6 @@ main {
    padding: 5%;
 }
 
-.user-management-card {
-   min-width: 450px;
-}
-
 .new-user-container {
   max-width: 95%;
   width: 300px;

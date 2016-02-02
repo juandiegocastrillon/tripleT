@@ -46,7 +46,6 @@ require('./models/vote.js');
 require('./models/election.js');
 require('./models/diningWeek.js');
 require('./models/pmRequest.js');
-require('./models/pmRequestContainer.js');
 
 require('./auth/passport.js')(passport);
 
