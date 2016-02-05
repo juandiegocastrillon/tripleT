@@ -75,6 +75,13 @@ main {
    margin: 5px;
 }
 
+/* weird fix for bug (in Angular Material) that hides 
+   last last item in tabs
+*/
+md-pagination-wrapper {
+    width:auto !important;
+}
+
 .dining-subtitle {
    font-weight: 800;
 }
