@@ -1,0 +1,47 @@
+body {
+    color: white;
+    margin: 0px;
+    background-color: black;
+}
+
+.weather-time {
+    background-color: black;
+    padding: 50px 30px;
+    height: 200px
+}
+
+.weather {
+    float: left;
+}
+
+.weather > img {
+    height: auto;
+    width: 200px;
+}
+
+.date {
+    text-align: center;
+    font-size: 60px
+}
+
+.time {
+    text-align: center;
+    font-size: 80px;
+}
+
+.bus {
+    text-align: center;
+    padding: 50px 30px;
+}
+
+.bus-name {
+    font-size: 40px;
+}
+
+.bus-times {
+    font-size: 50px;
+}
+
+.bus-times.big {
+    font-size: 100px;
+}

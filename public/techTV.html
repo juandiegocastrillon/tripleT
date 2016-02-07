@@ -1,0 +1,30 @@
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.js"></script>
+    <script type="text/javascript" src="javascripts/techTvController.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="stylesheets/techTvStyle.css">
+</head>
+<body ng-app="app" ng-controller="appCtrl">
+    <div class="weather-time">
+        <div class="date-time">
+        
+        <div class="date">
+            {{ date | date: 'EEEE, MMMM d'}}
+        </div>
+        <div class="time">
+            {{ date | date: 'shortTime' }}
+        </div>
+        </div>
+
+
+    </div>
+    <div class="bus">
+        <div class="bus-name">
+            {{ busName }} - 478 Comm Ave
+        </div>
+        <div ng-repeat="pred in predictions_time" class="bus-times" ng-class="{big:$first}">
+            {{pred.minutes}} minutes
+        </div>
+    </div>
+</body>
