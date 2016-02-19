@@ -67,14 +67,18 @@
               </md-tab-label>
               <!-- Edit Dining Mode -->
               <md-tab-body>
-                <md-input-container class="dining-dayinfo">
-                  <span class="dining-subtitle">HEAD CHEF: </span>
-                  <input type="text" ng-model="dayInfo.Acomm" aria-label="enter acomm"/>
-                </md-input-container>
-                <md-input-container class="dining-dayinfo">
-                  <div class="dining-subtitle">MENU:</div>
-                  <textarea type="text" ng-model="dayInfo.menu" aria-label="input menu"></textarea>
-                </md-input-container>
+                <div class="dining-dayinfo">
+                  <md-input-container>
+                    <span class="dining-subtitle">HEAD CHEF: </span>
+                    <input type="text" ng-model="dayInfo.Acomm" aria-label="enter acomm"/>
+                  </md-input-container>
+                </div>
+                <div class="dining-dayinfo">
+                  <md-input-container>
+                    <div class="dining-subtitle">MENU:</div>
+                    <textarea type="text" ng-model="dayInfo.menu" aria-label="input menu"></textarea>
+                  </md-input-container>
+                </div>
                 
                 <div class="dining-dayinfo">
                   <div class="dining-subtitle">LATE PLATES:</div>
