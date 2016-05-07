@@ -16,8 +16,4 @@ module.exports = function(app) {
 
    app.route("/dining/:diningID/latePlate/remove")
       .put(dining.removeLatePlate)
-
-
-   // bind :userId to req.profile
-   // app.param('electionID', voting.voteByID);
 }

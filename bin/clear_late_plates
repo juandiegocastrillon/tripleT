@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+/*
+ * Process that runs every Saturday to 
+ * clear the late plates for the previous
+ * week of dining
+ */
+var mongoose = require('mongoose');
+var _ = require('lodash');
+require("../connectToDB.js");
+require('../models/diningWeek.js');
+
+var DiningWeek = mongoose.model('DiningWeek');
+
+// this script runs once per day.
+// only delete late plates on Saturday
+var today = new Date();
+if(today.getDay() == 6) {
+   DiningWeek.findOne({})
+      .exec(function(err, week) {
+         if (week) {
+            // clear the late plates
+            _.forEach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'], function(dayofweek) {
+               week[dayofweek].latePlates = [];
+            });
+
+            // save the model to the DB
+            week.save(function(err, week) {
+               mongoose.connection.close();
+            });
+         } else {
+            mongoose.connection.close();
+         }
+      });
+} else {
+   mongoose.connection.close();
+}
