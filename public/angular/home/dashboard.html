@@ -19,7 +19,7 @@
           <h1 class="md-title">Dining</h1>
 
           <!-- Dining Tabs -->
-          <md-tabs ng-hide="diningEditMode" md-dynamic-height md-center-tabs md-selected=currentDayOfWeek>
+          <md-tabs ng-hide="diningEditMode" md-stretch-tabs="always" md-swipe-content md-dynamic-height md-center-tabs md-selected=currentDayOfWeek>
             <md-tab ng-repeat="(dayofweek, dayInfo) in diningWeek">
               <md-tab-label>
                 {{ abbrevDOW[daysOfWeek.indexOf(dayofweek)] }}
