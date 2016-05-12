@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Controller that handles all changes to Dining.
+ * There should only be one dining week object in the database, ever.
+ * Each week, the dining week should be modified.
+ */
+
 var mongoose = require('mongoose');
 var xss = require('xss');
 var _ = require('lodash');
@@ -7,6 +13,10 @@ var assert = require('assert');
 
 var DiningWeek = mongoose.model('DiningWeek');
 
+/**
+ * Creates a new dining week. Should only be called once, ever.
+ * @return {Object} - the new dining week.
+ */
 function makeNewWeek(req, res) {
    var daysParams = {
       Sunday: {
@@ -43,7 +53,9 @@ function makeNewWeek(req, res) {
 }
 
 /**
- * We should only have one dining week object in backend. Return the ID.
+ * Returns the dining week.
+ * We should only have one dining week object in backend.
+ * @return {object} - the dining week
  */
 function getDiningWeek(req, res) {
    DiningWeek.findOne({}, function(err, week) {
@@ -55,6 +67,11 @@ function getDiningWeek(req, res) {
    });
 }
 
+/**
+ * Very similar to method above. This time you pass in the dining ID.
+ * @param {String} req.params.diningID - the diningID from the database. Params are in the URL
+ * @return {object} - the dining week
+ */
 function getDining(req, res) {
    var diningWeekID = xss(req.params.diningID);
 
@@ -68,6 +85,12 @@ function getDining(req, res) {
       })
 }
 
+/**
+ * Completely overwrite the dining week. Very naïve to completely overwrite instead of making individual
+ * change methods, I know.
+ * @param {String} req.params.diningID - the diningID from the database. Params are in the URL
+ * @return {object} - the dining week
+ */
 function updateDining(req, res) {
    var diningWeekID = xss(req.params.diningID);
    var updatedWeek = req.body.updatedWeek;
@@ -95,6 +118,12 @@ function updateDining(req, res) {
       })
 }
 
+/**
+ * Add a late plate to the specified day of the week. The kerberos is grabbed from the signed-in user.
+ * @param {String} req.params.diningID - the diningID from the database. Params are in the URL
+ * @param {String} req.body.dayofweek - the day of the week the late plate needs to be added to
+ * @return {object} - the dining week
+ */
 function addLatePlate(req, res) {
    var name = req.user.kerberos;
    var dayofweek = xss(req.body.dayofweek);
@@ -126,6 +155,12 @@ function addLatePlate(req, res) {
       })
 }
 
+/**
+ * Remove a late plate to the specified day of the week. The kerberos is grabbed from the signed-in user.
+ * @param {String} req.params.diningID - the diningID from the database. Params are in the URL
+ * @param {String} req.body.dayofweek - the day of the week the late plate needs to be added to
+ * @return {object} - the dining week
+ */
 function removeLatePlate(req, res) {
    var name = req.user.kerberos;
    var dayofweek = xss(req.body.dayofweek);

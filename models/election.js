@@ -30,7 +30,9 @@ var electionSchema = mongoose.Schema({
   }
 });
 
-
+/**
+ * Cast the vote. If the voter has already voted, remove the previous vote.
+ */
 electionSchema.methods.castVote = function(voteCast) {
   var electionVotes = this.votes;
   _.forEach(electionVotes, function(voteID) {

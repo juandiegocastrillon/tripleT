@@ -1,4 +1,3 @@
-// author: Juan Diego Castrillon
 /**
  * These routes are anchored to the methods defined in the users controllers
  */
@@ -25,16 +24,11 @@ module.exports = function(app) {
 
    // Setting up the users authentication api
    app.route('/auth/signUp').post(users.signUp);
-   
-   app.route('/auth/signIn').post(passport.authenticate('validated-get-user', {
-      // failureFlash: true
-   }), users.signIn);
-   
+   app.route('/auth/signIn').post(passport.authenticate('validated-get-user', {}), users.signIn);
    app.route('/auth/signOut').get(users.signOut);
-
    app.route('/auth/changePassword').post(users.changePassword);
 
    // middleware
-   // bind :userId to req.profile
+   // bind :userId to users.userByID
    app.param('userId', users.userByID);
 };

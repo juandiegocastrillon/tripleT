@@ -1,3 +1,6 @@
+/**
+ * Code to connect to the database
+ */
 var mongoose = require('mongoose');
 
 var dbpath = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'localhost';

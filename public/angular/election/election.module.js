@@ -44,9 +44,9 @@ angular.module('tripleT.dashboard')
   })
 
 .factory('Elections', function($resource) {
-   return $resource('voting/');
+   return $resource('election/');
 })
 
 .factory('Election', function($resource) {
-  return $resource('voting/:electionID');
+  return $resource('election/:electionID');
 });

@@ -1,15 +1,23 @@
 'use strict';
 
+/**
+ * Controller that handles all changes to elections
+ */
+
 var mongoose = require('mongoose');
 var xss = require('xss');
 var _ = require('lodash');
 var assert = require('assert');
-var votingAlgo = require('./votingAlgorithms.js');
+var votingAlgo = require('./votingAlgorithms.js'); // voting algorithms
 
+// load the back-end models
 var Election = mongoose.model('Election');
 var Vote = mongoose.model('Vote');
 
-
+/**
+ * Returns all elections
+ * @return {Object} - all elections. The 'name', 'candidates', and 'creator' field will only be populated
+ */
 function getElections(req, res) {
    Election.find({}, 'name candidates creator', function(err, elections) {
       if (err) {
@@ -20,6 +28,16 @@ function getElections(req, res) {
    });
 }
 
+/**
+ * Create a new election
+ * @param {String} req.body.name - Name of the new election
+ * @param {String} req.body.candidates - all candidates of the election, separated by a comma
+ * @param {String} req.body.creator - kerberos of the creator of the election
+ * @param {int} req.body.numWinners - number of winners in the election. If numWinners is 1, 
+ *                                     decide winner by run-off voting. If more than one winner,
+ *                                     decide winner by tallying votes.
+ * @return {Object} the new election
+ */
 function makeNewElection(req, res) {
    var newElectionData = {};
    newElectionData.name = xss(req.body.name);
@@ -40,6 +58,11 @@ function makeNewElection(req, res) {
    });
 }
 
+/**
+ * Get the election
+ * @param {String} req.params.electionID - the election ID in the URL of the route
+ * @return {Object} the election object in the database
+ */
 function getElection(req, res) {
    var electionID = xss(req.params.electionID);
 
@@ -55,6 +78,11 @@ function getElection(req, res) {
       });
 }
 
+/**
+ * Get the votes for an election
+ * @param {String} req.params.electionID - the election ID in the URL of the route
+ * @return {Array} the votes array from that election
+ */
 function getVotes(req, res) {
    var electionID = xss(req.params.electionID);
 
@@ -70,6 +98,13 @@ function getVotes(req, res) {
       });
 }
 
+/**
+ * Cast a vote for this election
+ * @param {String} req.params.electionID - the election ID in the URL of the route
+ * @param {String} req.user.kerberos - the kerberos of the person voting. req.user comes from the currently signed-in user.
+ * @param {Array} reqw.body.vote - an array of the ordering of the candidates for this vote
+ * @return {Object} the election object in the database
+ */
 function castVote(req, res) {
    var electionID = xss(req.params.electionID);
    var voteData = {};
@@ -116,6 +151,10 @@ function castVote(req, res) {
       });
 }
 
+/**
+ * Delete the election
+ * @param {String} req.params.electionID - the election ID in the URL of the route
+ */
 function deleteElection(req, res) {
    var electionID = xss(req.params.electionID);
    Election.findOne({_id: electionID})
@@ -128,6 +167,13 @@ function deleteElection(req, res) {
       });
 }
 
+/**
+ * Determine the winner of an election. If there is only one winner in the election,
+ * determine winner by instant run off voting. Otherwise, tally the votes of the first
+ * numWinners candidates in every vote.
+ * @param {String} req.params.electionID - the election ID in the URL of the route
+ * @return {String} - candidate that won the election
+ */
 function getResult(req, res) {
    var electionID = xss(req.params.electionID);
 

@@ -4,7 +4,7 @@ angular.module('tripleT.election', ['ngResource', 'ngRoute'])
 
    return {
       getElections: function(callback) {
-         $http.get('/voting')
+         $http.get('/election')
             .success(function(elections) {
                callback(elections);
             })

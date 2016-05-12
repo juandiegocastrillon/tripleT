@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * Define all the HTTP methods for all dining related actions
+ */
 
 module.exports = function(app) {
    var dining = require('../controllers/dining.js');

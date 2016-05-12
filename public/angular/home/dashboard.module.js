@@ -25,7 +25,7 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     }
 
     $scope.getWinner = function(ev, election) {
-      $http.get('/voting/' + election._id + '/results')
+      $http.get('/election/' + election._id + '/results')
       .success(function(winner) {
         election.winner = winner ? winner : 'No current votes';
         showWinner(ev, election.winner);
@@ -198,7 +198,6 @@ angular.module('tripleT.dashboard', ['ngResource', 'ngRoute', 'ui.sortable'])
     $scope.makeRequest = function(pmRequest) {
       if (!pmRequest) return;
       var newReq = {
-        author: $scope.currentUser._id,
         item: pmRequest.item,
         reason: pmRequest.reason,
       }
