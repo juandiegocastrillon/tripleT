@@ -48,7 +48,7 @@ angular.module('tripleT', [
   var authService = {};
 
   authService.login = function(credentials) {
-    credentials.kerberos = credentials.kerberos.toLowerCase(); //traub's first line!
+    credentials.kerberos = credentials.kerberos.toLowerCase();
     return $http.post('/auth/signIn', credentials)
     .then(function(res) {
       return res.data;
