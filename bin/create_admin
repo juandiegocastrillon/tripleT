@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+/**
+ * Create an admin user for initially using Triple-T for your local machine.
+ * Create this admin account. Use this admin account to create any other new
+ * account from the website.
+ */
+require("../connectToDB.js");
+require('../models/user.js');
+var mongoose = require('mongoose');
+User = mongoose.model('User');
+
+var newUserData = {
+    name: "Admin Admin",
+    kerberos: "admin",
+    password: "password",
+    role: "admin",
+    provider: "local"
+};
+
+var newUser = new User(newUserData);
+newUser.save(function(err, user) {
+    console.log("Created admin!");
+    mongoose.connection.close();
+});
